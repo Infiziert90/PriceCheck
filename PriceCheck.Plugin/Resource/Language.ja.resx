@@ -1,0 +1,242 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AveragePrice" xml:space="preserve">
+        <value>平均価格</value>
+    </data>
+    <data name="BelowMinimum" xml:space="preserve">
+        <value>最低価格以下</value>
+    </data>
+    <data name="BelowVendor" xml:space="preserve">
+        <value>Npcに販売</value>
+    </data>
+    <data name="Chat" xml:space="preserve">
+        <value>チャット</value>
+    </data>
+    <data name="ContextMenu" xml:space="preserve">
+        <value>コンテキストメニュー</value>
+    </data>
+    <data name="CurrentAveragePrice" xml:space="preserve">
+        <value>現在の平均価格</value>
+    </data>
+    <data name="CurrentMinimumPrice" xml:space="preserve">
+        <value>現在の最低価格</value>
+    </data>
+    <data name="CurrentMinimumPriceDesc" xml:space="preserve">
+        <value>通常と高品質、両方のアイテムの現在の最低価格。</value>
+    </data>
+    <data name="DisplayHeading" xml:space="preserve">
+        <value>表示</value>
+    </data>
+    <data name="FailedToGetData" xml:space="preserve">
+        <value>データの取得に失敗しました (universalis.app may be down)</value>
+    </data>
+    <data name="FailedToProcess" xml:space="preserve">
+        <value>リクエストの処理に失敗しました</value>
+    </data>
+    <data name="Filters" xml:space="preserve">
+        <value>Filters</value>
+    </data>
+    <data name="FiltersHeading" xml:space="preserve">
+        <value>フィルター</value>
+    </data>
+    <data name="General" xml:space="preserve">
+        <value>一般</value>
+    </data>
+    <data name="HelpMessage" xml:space="preserve">
+        <value>価格を確認するには、キーバインドを長押ししてから、インベントリ内のアイテムまたはチャットでリンクされているアイテムにカーソルを合わせます。 PriceCheck設定でキーバインド(または無効)を設定できます。 価格は Universalis からの平均値であり、市場ボードで表示される特定のリストと一致しません。 /pcheck を使用してオーバーレイを開き、/pcheckconfig を使用して設定を開くことができます。 ヘルプが必要な場合は、discordに問い合わせるか、GitHub で問題を開きます。 翻訳の追加を手伝いたい場合は、Crowdin でアップデートを送信することができます。GitHub と Crowdin の両方へのリンクは設定で利用できます。</value>
+    </data>
+    <data name="HideOverlayTimer" xml:space="preserve">
+        <value>メニュー表示中にオーバーレイを隠す</value>
+    </data>
+    <data name="HideOverlayTimer_HelpMarker" xml:space="preserve">
+        <value>前回の価格チェックからx秒後にオーバーレイを隠す - ゼロに設定することでこれを行えます。</value>
+    </data>
+    <data name="HoverDelay" xml:space="preserve">
+        <value>ホバーの遅延</value>
+    </data>
+    <data name="HoverDelay_HelpMarker" xml:space="preserve">
+        <value>ホバリング後の処理の遅延 (秒)</value>
+    </data>
+    <data name="InstallThankYou" xml:space="preserve">
+        <value>PriceCheckをインストールしていただきありがとうございます！</value>
+    </data>
+    <data name="Keybind" xml:space="preserve">
+        <value>キーバインド</value>
+    </data>
+    <data name="KeybindEnabled" xml:space="preserve">
+        <value>キー設定をリセット</value>
+    </data>
+    <data name="KeybindEnabled_HelpMarker" xml:space="preserve">
+        <value>キーバインドが使用されているか、ホバリングするかを切り替えます</value>
+    </data>
+    <data name="MaximumPrice" xml:space="preserve">
+        <value>最高価格</value>
+    </data>
+    <data name="MaximumPriceDesc" xml:space="preserve">
+        <value>現在の商品の最低価格。</value>
+    </data>
+    <data name="MaxItems" xml:space="preserve">
+        <value>最大アイテム数</value>
+    </data>
+    <data name="MaxItems_HelpMarker" xml:space="preserve">
+        <value>一度にオーバーレイ中のアイテムの最大数を設定</value>
+    </data>
+    <data name="MaxUploadDays" xml:space="preserve">
+        <value>最大ダウンロード速度</value>
+    </data>
+    <data name="MaxUploadDays_HelpMarker" xml:space="preserve">
+        <value>上限を設定して古いデータを使用しないようにする</value>
+    </data>
+    <data name="MinimumPrice" xml:space="preserve">
+        <value>最低価格</value>
+    </data>
+    <data name="MinimumPriceDesc" xml:space="preserve">
+        <value>現在の商品の最低価格。</value>
+    </data>
+    <data name="MinimumPrice_HelpMarker" xml:space="preserve">
+        <value>実際の平均値が表示される最低価格を設定します。</value>
+    </data>
+    <data name="ModifierKeybind" xml:space="preserve">
+        <value>追加オプション</value>
+    </data>
+    <data name="ModifierKeybind_HelpMarker" xml:space="preserve">
+        <value>修飾キーを設定 (例: shift)</value>
+    </data>
+    <data name="NoDataAvailable" xml:space="preserve">
+        <value>利用可能なデータはありません。</value>
+    </data>
+    <data name="NoRecentDataAvailable" xml:space="preserve">
+        <value>最近のデータなし</value>
+    </data>
+    <data name="Overlay" xml:space="preserve">
+        <value>オーバーレイ</value>
+    </data>
+    <data name="PluginDisabled" xml:space="preserve">
+        <value>PriceCheckPluginは無効です。</value>
+    </data>
+    <data name="PluginEnabled" xml:space="preserve">
+        <value>プラグイン有効化</value>
+    </data>
+    <data name="PluginEnabled_HelpMarker" xml:space="preserve">
+        <value>プラグインのオン/オフの切り替え</value>
+    </data>
+    <data name="PriceMode" xml:space="preserve">
+        <value>Price Mode</value>
+    </data>
+    <data name="PriceMode_HelpMarker" xml:space="preserve">
+        <value>select price calculation to use</value>
+    </data>
+    <data name="PrimaryKeybind" xml:space="preserve">
+        <value>標準</value>
+    </data>
+    <data name="PrimaryKeybind_HelpMarker" xml:space="preserve">
+        <value>プライマリキーを設定します（例：なし、Z）</value>
+    </data>
+    <data name="RestrictInCombat" xml:space="preserve">
+        <value>Don't process in combat</value>
+    </data>
+    <data name="RestrictInCombat_HelpMarker" xml:space="preserve">
+        <value>don't process price checks while in combat</value>
+    </data>
+    <data name="RestrictInContent" xml:space="preserve">
+        <value>Don't process in content</value>
+    </data>
+    <data name="RestrictInContent_HelpMarker" xml:space="preserve">
+        <value>don't process price checks while in content</value>
+    </data>
+    <data name="SellOnMarketboard" xml:space="preserve">
+        <value>マーケットボードで販売</value>
+    </data>
+    <data name="ShowFailedToGetDataInOverlay" xml:space="preserve">
+        <value>データエラーの取得に失敗しました</value>
+    </data>
+    <data name="ShowFailedToProcessInOverlay" xml:space="preserve">
+        <value>エラーの処理に失敗しました</value>
+    </data>
+    <data name="ShowFailedToProcessInOverlay_HelpMarker" xml:space="preserve">
+        <value>予期せずエラーが発生した場合にエラーを表示</value>
+    </data>
+    <data name="ShowInChat" xml:space="preserve">
+        <value>チャットの表示</value>
+    </data>
+    <data name="ShowInChat_HelpMarker" xml:space="preserve">
+        <value>価格チェック結果をチャットに表示する</value>
+    </data>
+    <data name="ShowOverlay" xml:space="preserve">
+        <value>オーバーレイを表示する</value>
+    </data>
+    <data name="ShowOverlayByKeybind" xml:space="preserve">
+        <value>キーバインドでオーバーレイを表示</value>
+    </data>
+    <data name="ShowOverlayByKeybind_HelpMarker" xml:space="preserve">
+        <value>キーバインド時にオーバーレイウィンドウを表示する</value>
+    </data>
+    <data name="ShowOverlayOnLogin" xml:space="preserve">
+        <value>ログイン時にオーバーレイを表示</value>
+    </data>
+    <data name="ShowOverlayOnLogin_HelpMarker" xml:space="preserve">
+        <value>ログイン時にオーバーレイウィンドウを表示</value>
+    </data>
+    <data name="ShowOverlay_HelpMarker" xml:space="preserve">
+        <value>オーバーレイウィンドウで価格チェック結果を表示する</value>
+    </data>
+    <data name="ShowPrices" xml:space="preserve">
+        <value>価格を表示：</value>
+    </data>
+    <data name="ShowPrices_HelpMarker" xml:space="preserve">
+        <value>価格を表示するかアドバイスを表示する</value>
+    </data>
+    <data name="ShowSuccessInOverlay" xml:space="preserve">
+        <value>正常な価格チェックを表示</value>
+    </data>
+    <data name="ShowSuccessInOverlay_HelpMarker" xml:space="preserve">
+        <value>正常な価格チェックを成功させました</value>
+    </data>
+    <data name="ShowToast_HelpMarker" xml:space="preserve">
+        <value>価格チェック結果を通知に表示</value>
+    </data>
+    <data name="StyleHeading" xml:space="preserve">
+        <value>スタイル</value>
+    </data>
+    <data name="Thresholds" xml:space="preserve">
+        <value>しきい値</value>
+    </data>
+    <data name="Toast" xml:space="preserve">
+        <value>通知</value>
+    </data>
+    <data name="Unmarketable" xml:space="preserve">
+        <value>マーケット取引不可</value>
+    </data>
+    <data name="UseChatColors" xml:space="preserve">
+        <value>チャット色変更</value>
+    </data>
+    <data name="UseChatColors_HelpMarker" xml:space="preserve">
+        <value>結果に基づいてチャットに異なる色を使用します</value>
+    </data>
+    <data name="UseItemLinks" xml:space="preserve">
+        <value>アイテムリンクを使用する</value>
+    </data>
+    <data name="UseItemLinks_HelpMarker" xml:space="preserve">
+        <value>チャット結果にアイテムリンクを使用する</value>
+    </data>
+    <data name="UseOverlayColors" xml:space="preserve">
+        <value>CAPEの重ね書きの色</value>
+    </data>
+    <data name="UseOverlayColors_HelpMarker" xml:space="preserve">
+        <value>結果に基づいてオーバーレイに異なる色を使用する</value>
+    </data>
+    <data name="WaitingForItems" xml:space="preserve">
+        <value>アイテムを待っています。</value>
+    </data>
+</root>

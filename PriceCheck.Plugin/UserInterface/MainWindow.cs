@@ -1,143 +1,131 @@
+using System;
 using System.Linq;
 using System.Numerics;
-
-using CheapLoc;
+using Dalamud.Interface.Utility.Raii;
+using Dalamud.Interface.Windowing;
+using Dalamud.Utility;
 using ImGuiNET;
 
-namespace PriceCheck
+namespace PriceCheck;
+
+/// <summary>
+/// Config window for the Plugin.
+/// </summary>
+public class MainWindow : Window, IDisposable
 {
+    private readonly Plugin Plugin;
+
     /// <summary>
-    /// Config window for the plugin.
+    /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
-    public class MainWindow : PluginWindow
+    /// <param name="plugin">PriceCheck Plugin.</param>
+    public MainWindow(Plugin plugin) : base("PriceCheck")
     {
-        private readonly PriceCheckPlugin plugin;
+        Plugin = plugin;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindow"/> class.
-        /// </summary>
-        /// <param name="plugin">PriceCheck plugin.</param>
-        public MainWindow(PriceCheckPlugin plugin)
-            : base(plugin, "PriceCheck")
+        SizeConstraints = new WindowSizeConstraints
         {
-            this.plugin = plugin;
-            this.Size = new Vector2(300f, 150f);
-            this.SizeCondition = ImGuiCond.Appearing;
-            this.RespectCloseHotkey = false;
-            this.UpdateWindowTitle();
-            if (PriceCheckPlugin.ClientState.IsLoggedIn)
-            {
-                this.OpenOnLogin();
-            }
+            MinimumSize = new Vector2(300, 150),
+            MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
+        };
+
+        RespectCloseHotkey = false;
+
+        UpdateWindowTitle();
+        if (Plugin.ClientState.IsLoggedIn)
+            OpenOnLogin();
+    }
+
+    public void Dispose() { }
+
+    /// <inheritdoc />
+    public override void OnClose()
+    {
+        Plugin.Configuration.ShowOverlay = false;
+        Plugin.SaveConfig();
+    }
+
+    /// <inheritdoc />
+    public override bool DrawConditions()
+    {
+        if (Plugin.Configuration.HideOverlayElapsed != 0 && DateTimeOffset.UtcNow.ToUnixTimeSeconds() - Plugin.PriceService.LastPriceCheck > Plugin.Configuration.HideOverlayElapsed)
+            if (!(Plugin.Configuration.ShowOverlayByKeybind && Plugin.IsKeyBindPressed()))
+                return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Open window on login depending on config.
+    /// </summary>
+    public void OpenOnLogin()
+    {
+        if (Plugin.Configuration is { ShowOverlay: true, ShowOverlayOnLogin: true })
+            IsOpen = true;
+    }
+
+    /// <summary>
+    /// Update window title.
+    /// </summary>
+    public void UpdateWindowTitle()
+    {
+        if (Plugin.Configuration is { ShowKeybindInTitleBar: true, KeybindEnabled: true })
+            WindowName = Plugin.Configuration.PrimaryKey.Equals(PrimaryKey.Enum.VkNone)
+                             ? Language.TitleBarWithKeybind1.Format(ModifierKey.Names[ModifierKey.EnumToIndex(Plugin.Configuration.ModifierKey)])
+                             : Language.TitleBarWithKeybind2.Format(ModifierKey.Names[ModifierKey.EnumToIndex(Plugin.Configuration.ModifierKey)], PrimaryKey.Names[PrimaryKey.EnumToIndex(Plugin.Configuration.PrimaryKey)]);
+        else
+            WindowName = "PriceCheck";
+    }
+
+    /// <inheritdoc />
+    public override void Draw()
+    {
+        if (!Plugin.Configuration.Enabled)
+        {
+            ImGui.TextUnformatted(Language.PluginDisabled);
+            return;
         }
 
-        /// <inheritdoc />
-        public override void OnClose()
+        try
         {
-            this.plugin.Configuration.ShowOverlay = false;
-            this.plugin.SaveConfig();
-        }
-
-        /// <summary>
-        /// Open window on login depending on config.
-        /// </summary>
-        public void OpenOnLogin()
-        {
-            if (this.plugin.Configuration is { ShowOverlay: true, ShowOverlayOnLogin: true })
+            var items = Plugin.PriceService.GetItems().ToList();
+            if (items is { Count: > 0 })
             {
-                this.IsOpen = true;
-            }
-        }
-
-        /// <summary>
-        /// Update window title.
-        /// </summary>
-        public void UpdateWindowTitle()
-        {
-            if (this.plugin.Configuration is { ShowKeybindInTitleBar: true, KeybindEnabled: true })
-            {
-                if (this.plugin.Configuration.PrimaryKey.Equals(PrimaryKey.Enum.VkNone))
+                using (ImRaii.Group())
                 {
-                    this.WindowName = string.Format(
-                        Loc.Localize("TitleBarWithKeybind1", "PriceCheck ({0})"),
-                        ModifierKey.Names[ModifierKey.EnumToIndex(this.plugin.Configuration.ModifierKey)]);
+                    ImGui.Columns(2);
+                    foreach (var item in items)
+                    {
+                        using var color = ImRaii.PushColor(ImGuiCol.Text, item.OverlayColor, Plugin.Configuration.UseOverlayColors);
+                        ImGui.TextUnformatted(item.ItemName);
+                        ImGui.NextColumn();
+                        ImGui.TextUnformatted(item.Message);
+
+                        ImGui.NextColumn();
+                        ImGui.Separator();
+                    }
                 }
-                else
+
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
-                    this.WindowName = string.Format(
-                        Loc.Localize("TitleBarWithKeybind2", "PriceCheck ({0}+{1})"),
-                        ModifierKey.Names[ModifierKey.EnumToIndex(this.plugin.Configuration.ModifierKey)],
-                        PrimaryKey.Names[PrimaryKey.EnumToIndex(this.plugin.Configuration.PrimaryKey)]);
+                    ImGui.OpenPopup("###PriceCheck_Overlay_Popup");
                 }
             }
             else
             {
-                this.WindowName = "PriceCheck";
+                ImGui.TextUnformatted(Language.WaitingForItems);
             }
         }
-
-        /// <inheritdoc />
-        public override void Draw()
+        catch
         {
-            if (!this.plugin.Configuration.Enabled)
-            {
-                ImGui.Text(Loc.Localize("PluginDisabled", "PriceCheck is disabled."));
-            }
-            else
-            {
-                try
-                {
-                    var items = this.plugin.PriceService.GetItems().ToList();
-                    if (items is { Count: > 0 })
-                    {
-                        ImGui.BeginGroup();
-                        ImGui.Columns(2);
-                        foreach (var item in items)
-                        {
-                            if (this.plugin.Configuration.UseOverlayColors)
-                            {
-                                ImGui.TextColored(item.OverlayColor, item.ItemName);
-                                ImGui.NextColumn();
-                                ImGui.TextColored(item.OverlayColor, item.Message);
-                            }
-                            else
-                            {
-                                ImGui.Text(item.ItemName);
-                                ImGui.NextColumn();
-                                ImGui.Text(item.Message);
-                            }
-
-                            ImGui.NextColumn();
-                            ImGui.Separator();
-                        }
-
-                        ImGui.EndGroup();
-                        if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
-                        {
-                            ImGui.OpenPopup("###PriceCheck_Overlay_Popup");
-                        }
-                    }
-                    else
-                    {
-                        ImGui.Text(Loc.Localize("WaitingForItems", "Waiting for items."));
-                    }
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                if (ImGui.BeginPopup("###PriceCheck_Overlay_Popup"))
-                {
-                    if (ImGui.MenuItem(
-                        Loc.Localize("ClearPricedItems", "Clear items")))
-                    {
-                        this.plugin.PriceService.ClearItems();
-                    }
-
-                    ImGui.EndPopup();
-                }
-            }
+            // ignored
         }
+
+        using var popup = ImRaii.Popup("###PriceCheck_Overlay_Popup");
+        if (!popup.Success)
+            return;
+
+        if (ImGui.MenuItem(Language.ClearPricedItems))
+            Plugin.PriceService.ClearItems();
     }
 }

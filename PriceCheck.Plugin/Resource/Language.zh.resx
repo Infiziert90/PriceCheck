@@ -1,0 +1,353 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AllowKeybindAfterHover" xml:space="preserve">
+        <value>允许鼠标悬停项目后的快捷键</value>
+    </data>
+    <data name="AllowKeybindAfterHover_HelpMarker" xml:space="preserve">
+        <value>允许您在物品提示工具打开后按住快捷键(禁用旧模式)</value>
+    </data>
+    <data name="AveragePrice" xml:space="preserve">
+        <value>平均价格</value>
+    </data>
+    <data name="AveragePriceDesc" xml:space="preserve">
+        <value>在最近销售历史中，移除超过平均值的三个标准差的物品。</value>
+    </data>
+    <data name="BelowMinimum" xml:space="preserve">
+        <value>低于最低价格</value>
+    </data>
+    <data name="BelowVendor" xml:space="preserve">
+        <value>出售给NPC</value>
+    </data>
+    <data name="Chat" xml:space="preserve">
+        <value>聊天</value>
+    </data>
+    <data name="ChatChannel" xml:space="preserve">
+        <value>聊天频道</value>
+    </data>
+    <data name="ChatChannel_HelpMarker" xml:space="preserve">
+        <value>设置聊天频道以发送消息</value>
+    </data>
+    <data name="ClearPricedItems" xml:space="preserve">
+        <value>清除所有项目</value>
+    </data>
+    <data name="ContextMenu" xml:space="preserve">
+        <value>右键菜单</value>
+    </data>
+    <data name="CurrentAveragePrice" xml:space="preserve">
+        <value>当前平均价格</value>
+    </data>
+    <data name="CurrentAveragePriceDesc" xml:space="preserve">
+        <value>在最近销售历史中，移除超过平均值的三个标准差的物品。</value>
+    </data>
+    <data name="CurrentMinimumPrice" xml:space="preserve">
+        <value>当前最低价格</value>
+    </data>
+    <data name="CurrentMinimumPriceDesc" xml:space="preserve">
+        <value>当前列表中的最低价格（包括普通和高品质）。</value>
+    </data>
+    <data name="DisplayHeading" xml:space="preserve">
+        <value>显示</value>
+    </data>
+    <data name="FailedToGetData" xml:space="preserve">
+        <value>获取数据失败 (universalis.app may be down)</value>
+    </data>
+    <data name="FailedToProcess" xml:space="preserve">
+        <value>无法处理物品</value>
+    </data>
+    <data name="Filters" xml:space="preserve">
+        <value>过滤</value>
+    </data>
+    <data name="FiltersHeading" xml:space="preserve">
+        <value>过滤器</value>
+    </data>
+    <data name="General" xml:space="preserve">
+        <value>一般</value>
+    </data>
+    <data name="HelpMessage" xml:space="preserve">
+        <value>您可以通过按住快捷键并悬浮在背包物品或消息中的物品上来查看价格。快捷键可以在 PriceCheck 设定中进行更改或禁用。该价格是来自于 Universalis 的平均价格且并不等同于您在市场中看到的价格。您可以使用「/pcheck」命令来打开叠加层，「/pcheckconfig」命令来打开设定。如果您需要帮助，请在 Discord 上联系我们或在 GitHub 上新建一个 Issue。如果您希望对翻译做出贡献，请在我们的 Crowdin 上提交翻译。GitHub 和 Crowdin 的链接都可以在设定中找到。</value>
+    </data>
+    <data name="HideOverlayTimer" xml:space="preserve">
+        <value>浮窗显示时间</value>
+    </data>
+    <data name="HideOverlayTimer_HelpMarker" xml:space="preserve">
+        <value>在 X 秒后关闭价格浮窗，你可以将其设置为 0 以禁用该功能。</value>
+    </data>
+    <data name="HoverDelay" xml:space="preserve">
+        <value>悬停延迟</value>
+    </data>
+    <data name="HoverDelay_HelpMarker" xml:space="preserve">
+        <value>悬停后处理前的延迟（秒）IMPROVE REQUIRED</value>
+    </data>
+    <data name="InstallThankYou" xml:space="preserve">
+        <value>感谢您安装 PriceCheck！</value>
+    </data>
+    <data name="Keybind" xml:space="preserve">
+        <value>快捷键</value>
+    </data>
+    <data name="KeybindEnabled" xml:space="preserve">
+        <value>使用快捷键</value>
+    </data>
+    <data name="KeybindEnabled_HelpMarker" xml:space="preserve">
+        <value>切换是否使用快捷键或仅悬浮</value>
+    </data>
+    <data name="MaximumPrice" xml:space="preserve">
+        <value>最高价格</value>
+    </data>
+    <data name="MaximumPriceDesc" xml:space="preserve">
+        <value>当前列表中的最高价格。</value>
+    </data>
+    <data name="MaxItems" xml:space="preserve">
+        <value>最多项目</value>
+    </data>
+    <data name="MaxItems_HelpMarker" xml:space="preserve">
+        <value>设置叠加层一次可显示的项目数量</value>
+    </data>
+    <data name="MaxUploadDays" xml:space="preserve">
+        <value>最大上传天数</value>
+    </data>
+    <data name="MaxUploadDays_HelpMarker" xml:space="preserve">
+        <value>设置最大上传时间以避免获取旧数据</value>
+    </data>
+    <data name="MinimumPrice" xml:space="preserve">
+        <value>最低售价</value>
+    </data>
+    <data name="MinimumPriceDesc" xml:space="preserve">
+        <value>当前列表中的最低价格。</value>
+    </data>
+    <data name="MinimumPrice_HelpMarker" xml:space="preserve">
+        <value>设置实际平均显示的最低价格</value>
+    </data>
+    <data name="ModifierKeybind" xml:space="preserve">
+        <value>修饰键</value>
+    </data>
+    <data name="ModifierKeybind_HelpMarker" xml:space="preserve">
+        <value>设置您的修饰键（例如 Shift）</value>
+    </data>
+    <data name="NoDataAvailable" xml:space="preserve">
+        <value>没有可用数据</value>
+    </data>
+    <data name="NoRecentDataAvailable" xml:space="preserve">
+        <value>没有近期数据</value>
+    </data>
+    <data name="Overlay" xml:space="preserve">
+        <value>叠加层</value>
+    </data>
+    <data name="PluginDisabled" xml:space="preserve">
+        <value>PriceCheck 插件已禁用。</value>
+    </data>
+    <data name="PluginEnabled" xml:space="preserve">
+        <value>Plugin Enabled</value>
+    </data>
+    <data name="PluginEnabled_HelpMarker" xml:space="preserve">
+        <value>启用/禁用插件</value>
+    </data>
+    <data name="PriceMode" xml:space="preserve">
+        <value>价格模式</value>
+    </data>
+    <data name="PriceMode_HelpMarker" xml:space="preserve">
+        <value>选择价格算法</value>
+    </data>
+    <data name="PrimaryKeybind" xml:space="preserve">
+        <value>主要键</value>
+    </data>
+    <data name="PrimaryKeybind_HelpMarker" xml:space="preserve">
+        <value>设置您的主要键（例如 None、Z）</value>
+    </data>
+    <data name="RestrictInCombat" xml:space="preserve">
+        <value>不要在战斗中进行处理</value>
+    </data>
+    <data name="RestrictInCombat_HelpMarker" xml:space="preserve">
+        <value>战斗时不处理价格检查</value>
+    </data>
+    <data name="RestrictInContent" xml:space="preserve">
+        <value>不要在副本中进行处理</value>
+    </data>
+    <data name="RestrictInContent_HelpMarker" xml:space="preserve">
+        <value>处于副本时不处理价格检查</value>
+    </data>
+    <data name="SellOnMarketboard" xml:space="preserve">
+        <value>在市场出售</value>
+    </data>
+    <data name="ShowBelowMinimumInChat" xml:space="preserve">
+        <value>显示比最小阈值更低的价格</value>
+    </data>
+    <data name="ShowBelowMinimumInChat_HelpMarker" xml:space="preserve">
+        <value>显示比最小阈值更低的价格警告</value>
+    </data>
+    <data name="ShowBelowMinimumInOverlay" xml:space="preserve">
+        <value>显示比最小阈值更低的价格</value>
+    </data>
+    <data name="ShowBelowMinimumInOverlay_HelpMarker" xml:space="preserve">
+        <value>显示比最小阈值更低的价格警告</value>
+    </data>
+    <data name="ShowBelowVendorInChat" xml:space="preserve">
+        <value>显示比商店价格警告更低的价格</value>
+    </data>
+    <data name="ShowBelowVendorInChat_HelpMarker" xml:space="preserve">
+        <value>市场价格比您可以卖给商店的价格更低时显示警告。</value>
+    </data>
+    <data name="ShowBelowVendorInOverlay" xml:space="preserve">
+        <value>显示比商店价格警告更低的价格</value>
+    </data>
+    <data name="ShowBelowVendorInOverlay_HelpMarker" xml:space="preserve">
+        <value>市场价格比您可以卖给商店的价格更低时显示警告。</value>
+    </data>
+    <data name="ShowFailedToGetDataInChat" xml:space="preserve">
+        <value>显示数据获取失败信息</value>
+    </data>
+    <data name="ShowFailedToGetDataInChat_HelpMarker" xml:space="preserve">
+        <value>在无法从 Universalis 获取数据时显示错误，这通常由于网络连接问题或 Universalis 服务器宕机引起</value>
+    </data>
+    <data name="ShowFailedToGetDataInOverlay" xml:space="preserve">
+        <value>显示数据获取失败信息</value>
+    </data>
+    <data name="ShowFailedToGetDataInOverlay_HelpMarker" xml:space="preserve">
+        <value>在无法从 Universalis 获取数据时显示错误，这通常由于网络连接问题或 Universalis 服务器宕机引起</value>
+    </data>
+    <data name="ShowFailedToProcessInChat" xml:space="preserve">
+        <value>显示处理失败信息</value>
+    </data>
+    <data name="ShowFailedToProcessInChat_HelpMarker" xml:space="preserve">
+        <value>在发生异常时显示错误</value>
+    </data>
+    <data name="ShowFailedToProcessInOverlay" xml:space="preserve">
+        <value>显示处理失败信息</value>
+    </data>
+    <data name="ShowFailedToProcessInOverlay_HelpMarker" xml:space="preserve">
+        <value>在发生异常时显示错误</value>
+    </data>
+    <data name="ShowInChat" xml:space="preserve">
+        <value>在聊天中显示</value>
+    </data>
+    <data name="ShowInChat_HelpMarker" xml:space="preserve">
+        <value>在聊天中显示价格结果</value>
+    </data>
+    <data name="ShowKeybindInTitleBar" xml:space="preserve">
+        <value>在标题栏中显示快捷键</value>
+    </data>
+    <data name="ShowKeybindInTitleBar_HelpMarker" xml:space="preserve">
+        <value>切换在标题栏上快捷键的显示</value>
+    </data>
+    <data name="ShowNoDataAvailableInChat" xml:space="preserve">
+        <value>显示无可用数据信息</value>
+    </data>
+    <data name="ShowNoDataAvailableInChat_HelpMarker" xml:space="preserve">
+        <value>在无法从 Universalis 取得有用数据时显示错误</value>
+    </data>
+    <data name="ShowNoDataAvailableInOverlay" xml:space="preserve">
+        <value>显示无可用数据信息</value>
+    </data>
+    <data name="ShowNoDataAvailableInOverlay_HelpMarker" xml:space="preserve">
+        <value>在无法从 Universalis 取得有用数据时显示错误</value>
+    </data>
+    <data name="ShowNoRecentDataAvailableInChat" xml:space="preserve">
+        <value>显示无最近数据信息</value>
+    </data>
+    <data name="ShowNoRecentDataAvailableInChat_HelpMarker" xml:space="preserve">
+        <value>当阈值范围内没有Universalis最新数据时显示警告</value>
+    </data>
+    <data name="ShowNoRecentDataAvailableInOverlay" xml:space="preserve">
+        <value>显示无最近数据信息</value>
+    </data>
+    <data name="ShowNoRecentDataAvailableInOverlay_HelpMarker" xml:space="preserve">
+        <value>当阈值范围内没有Universalis最新数据时显示警告</value>
+    </data>
+    <data name="ShowOverlay" xml:space="preserve">
+        <value>Show Overlay</value>
+    </data>
+    <data name="ShowOverlayByKeybind" xml:space="preserve">
+        <value>悬浮窗中显示快捷键</value>
+    </data>
+    <data name="ShowOverlayByKeybind_HelpMarker" xml:space="preserve">
+        <value>按住快捷键时显示悬浮窗</value>
+    </data>
+    <data name="ShowOverlayOnLogin" xml:space="preserve">
+        <value>登录时显示悬浮窗</value>
+    </data>
+    <data name="ShowOverlayOnLogin_HelpMarker" xml:space="preserve">
+        <value>在登录时显示悬浮窗</value>
+    </data>
+    <data name="ShowOverlay_HelpMarker" xml:space="preserve">
+        <value>在叠加层显示价格结果</value>
+    </data>
+    <data name="ShowPrices" xml:space="preserve">
+        <value>显示价格</value>
+    </data>
+    <data name="ShowPrices_HelpMarker" xml:space="preserve">
+        <value>显示价格或仅显示建议</value>
+    </data>
+    <data name="ShowSuccessInChat" xml:space="preserve">
+        <value>显示成功的价格检查</value>
+    </data>
+    <data name="ShowSuccessInChat_HelpMarker" xml:space="preserve">
+        <value>显示成功的价格检查</value>
+    </data>
+    <data name="ShowSuccessInOverlay" xml:space="preserve">
+        <value>显示成功的价格检查</value>
+    </data>
+    <data name="ShowSuccessInOverlay_HelpMarker" xml:space="preserve">
+        <value>显示成功的价格检查</value>
+    </data>
+    <data name="ShowToast" xml:space="preserve">
+        <value>显示弹出提示</value>
+    </data>
+    <data name="ShowToast_HelpMarker" xml:space="preserve">
+        <value>在弹出提示中显示价格结果</value>
+    </data>
+    <data name="ShowUnmarketableInChat" xml:space="preserve">
+        <value>显示不可交易警告</value>
+    </data>
+    <data name="ShowUnmarketableInChat_HelpMarker" xml:space="preserve">
+        <value>显示不可交易警告</value>
+    </data>
+    <data name="ShowUnmarketableInOverlay" xml:space="preserve">
+        <value>显示不可交易警告</value>
+    </data>
+    <data name="ShowUnmarketableInOverlay_HelpMarker" xml:space="preserve">
+        <value>显示不可交易警告</value>
+    </data>
+    <data name="StyleHeading" xml:space="preserve">
+        <value>样式</value>
+    </data>
+    <data name="Thresholds" xml:space="preserve">
+        <value>临界值</value>
+    </data>
+    <data name="Toast" xml:space="preserve">
+        <value>弹出提示</value>
+    </data>
+    <data name="Unmarketable" xml:space="preserve">
+        <value>该物品无法在市场出售</value>
+    </data>
+    <data name="UseChatColors" xml:space="preserve">
+        <value>使用聊天颜色</value>
+    </data>
+    <data name="UseChatColors_HelpMarker" xml:space="preserve">
+        <value>根据结果为聊天消息设置不同的颜色</value>
+    </data>
+    <data name="UseItemLinks" xml:space="preserve">
+        <value>使用物品链接</value>
+    </data>
+    <data name="UseItemLinks_HelpMarker" xml:space="preserve">
+        <value>在聊天消息中使用物品链接</value>
+    </data>
+    <data name="UseOverlayColors" xml:space="preserve">
+        <value>使用叠加层颜色</value>
+    </data>
+    <data name="UseOverlayColors_HelpMarker" xml:space="preserve">
+        <value>根据结果为叠加层设置不同的颜色</value>
+    </data>
+    <data name="WaitingForItems" xml:space="preserve">
+        <value>正在等待物品。</value>
+    </data>
+</root>

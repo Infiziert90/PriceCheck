@@ -1,0 +1,179 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="BelowMinimum" xml:space="preserve">
+        <value>Sotto il prezzo minimo</value>
+    </data>
+    <data name="BelowVendor" xml:space="preserve">
+        <value>Vendi al venditore</value>
+    </data>
+    <data name="Chat" xml:space="preserve">
+        <value>Chat</value>
+    </data>
+    <data name="ContextMenu" xml:space="preserve">
+        <value>Menu contestuale</value>
+    </data>
+    <data name="FailedToGetData" xml:space="preserve">
+        <value>Impossibile ottenere i dati (universalis.app may be down)</value>
+    </data>
+    <data name="Filters" xml:space="preserve">
+        <value>Filters</value>
+    </data>
+    <data name="General" xml:space="preserve">
+        <value>Generale</value>
+    </data>
+    <data name="HelpMessage" xml:space="preserve">
+        <value>Per controllare i prezzi, tieni premuta la scorciatoia e poi passa sopra un oggetto nel tuo inventario o in chat. È possibile la scorciatoia (o disattivarla) nelle impostazioni di PriceCheck. I prezzi sono la media in Universalis e non corrisponderanno ad alcun elenco specifico visibile dalla market board. È possibile usare il comando /pcheck per aprire l'overlay e /pcheckconfig per aprire le impostazioni. Se hai bisogno di aiuto, segnalalo su Discord o apri un ticket su GitHub. Se vuoi aiutare ad aggiungere traduzioni, puoi contribuire revisionandole su Crowdin. I link a GitHub e Crowdin sono disponibili nelle impostazioni.</value>
+    </data>
+    <data name="HideOverlayTimer_HelpMarker" xml:space="preserve">
+        <value>nascondi overlay dopo x secondi dall'ultimo controllo del prezzo - puoi farlo impostando a zero.</value>
+    </data>
+    <data name="HoverDelay" xml:space="preserve">
+        <value>Ritardo passaggio puntatore</value>
+    </data>
+    <data name="HoverDelay_HelpMarker" xml:space="preserve">
+        <value>ritardo (in secondi) prima di elaborare dopo il passaggio del puntatore</value>
+    </data>
+    <data name="InstallThankYou" xml:space="preserve">
+        <value>Grazie per aver installato PriceCheck!</value>
+    </data>
+    <data name="Keybind" xml:space="preserve">
+        <value>Scorciatoie</value>
+    </data>
+    <data name="KeybindEnabled" xml:space="preserve">
+        <value>Usa Scorciatoia</value>
+    </data>
+    <data name="KeybindEnabled_HelpMarker" xml:space="preserve">
+        <value>attiva/disattiva scorciatoia o il passaggio del puntatore</value>
+    </data>
+    <data name="MaxItems" xml:space="preserve">
+        <value>Oggetti Massimi</value>
+    </data>
+    <data name="MaxItems_HelpMarker" xml:space="preserve">
+        <value>imposta il numero massimo di elementi in sovrapposizione alla volta</value>
+    </data>
+    <data name="MaxUploadDays" xml:space="preserve">
+        <value>Giorni Massimi Di Caricamento</value>
+    </data>
+    <data name="MaxUploadDays_HelpMarker" xml:space="preserve">
+        <value>impostare l'età massima per evitare di usare dati vecchi</value>
+    </data>
+    <data name="MinimumPrice" xml:space="preserve">
+        <value>Prezzo Minimo</value>
+    </data>
+    <data name="MinimumPrice_HelpMarker" xml:space="preserve">
+        <value>imposta il prezzo minimo per la quale verrà visualizzata la media effettiva</value>
+    </data>
+    <data name="ModifierKeybind" xml:space="preserve">
+        <value>Modificatore</value>
+    </data>
+    <data name="ModifierKeybind_HelpMarker" xml:space="preserve">
+        <value>imposta il tasto modificatore (maiusc o tab)</value>
+    </data>
+    <data name="NoDataAvailable" xml:space="preserve">
+        <value>Dati non disponibili</value>
+    </data>
+    <data name="NoRecentDataAvailable" xml:space="preserve">
+        <value>Nessun dato recente</value>
+    </data>
+    <data name="Overlay" xml:space="preserve">
+        <value>Overlay</value>
+    </data>
+    <data name="PluginDisabled" xml:space="preserve">
+        <value>PriceCheckPlugin è disabilitato.</value>
+    </data>
+    <data name="PluginEnabled" xml:space="preserve">
+        <value>Plugin Abilitato</value>
+    </data>
+    <data name="PluginEnabled_HelpMarker" xml:space="preserve">
+        <value>attiva/disattiva il plugin</value>
+    </data>
+    <data name="PriceMode" xml:space="preserve">
+        <value>Modalità Prezzo</value>
+    </data>
+    <data name="PriceMode_HelpMarker" xml:space="preserve">
+        <value>seleziona il calcolo del prezzo da usare</value>
+    </data>
+    <data name="PrimaryKeybind" xml:space="preserve">
+        <value>Carattere</value>
+    </data>
+    <data name="PrimaryKeybind_HelpMarker" xml:space="preserve">
+        <value>imposta tasto carattere (es: nessuno, Z)</value>
+    </data>
+    <data name="RestrictInCombat" xml:space="preserve">
+        <value>Don't process in combat</value>
+    </data>
+    <data name="RestrictInCombat_HelpMarker" xml:space="preserve">
+        <value>don't process price checks while in combat</value>
+    </data>
+    <data name="RestrictInContent" xml:space="preserve">
+        <value>Don't process in content</value>
+    </data>
+    <data name="RestrictInContent_HelpMarker" xml:space="preserve">
+        <value>don't process price checks while in content</value>
+    </data>
+    <data name="SellOnMarketboard" xml:space="preserve">
+        <value>Vendi sul mercato</value>
+    </data>
+    <data name="ShowInChat" xml:space="preserve">
+        <value>Mostra in chat</value>
+    </data>
+    <data name="ShowInChat_HelpMarker" xml:space="preserve">
+        <value>mostra i risultati del controllo dei prezzi in chat</value>
+    </data>
+    <data name="ShowOverlay" xml:space="preserve">
+        <value>Mostra overlay</value>
+    </data>
+    <data name="ShowOverlay_HelpMarker" xml:space="preserve">
+        <value>mostra i risultati del controllo dei prezzi nella finestra di sovrapposizione</value>
+    </data>
+    <data name="ShowPrices" xml:space="preserve">
+        <value>Mostra prezzi</value>
+    </data>
+    <data name="ShowPrices_HelpMarker" xml:space="preserve">
+        <value>mostra prezzo o mostra consigli</value>
+    </data>
+    <data name="ShowToast_HelpMarker" xml:space="preserve">
+        <value>mostra i risultati del controllo dei prezzi nei toast</value>
+    </data>
+    <data name="Thresholds" xml:space="preserve">
+        <value>Soglie</value>
+    </data>
+    <data name="Toast" xml:space="preserve">
+        <value>Toast</value>
+    </data>
+    <data name="Unmarketable" xml:space="preserve">
+        <value>Impossibile vendere sul mercato</value>
+    </data>
+    <data name="UseChatColors" xml:space="preserve">
+        <value>Usa Colori Chat</value>
+    </data>
+    <data name="UseChatColors_HelpMarker" xml:space="preserve">
+        <value>usa colori diversi per la chat in base al risultato</value>
+    </data>
+    <data name="UseItemLinks" xml:space="preserve">
+        <value>Usa Collegamenti Oggetto</value>
+    </data>
+    <data name="UseItemLinks_HelpMarker" xml:space="preserve">
+        <value>usa collegamenti oggetto nei risultati della chat</value>
+    </data>
+    <data name="UseOverlayColors" xml:space="preserve">
+        <value>Usa Colori Sovrapposizione</value>
+    </data>
+    <data name="UseOverlayColors_HelpMarker" xml:space="preserve">
+        <value>usa colori diversi per la sovrapposizione in base al risultato</value>
+    </data>
+    <data name="WaitingForItems" xml:space="preserve">
+        <value>In attesa di oggetti.</value>
+    </data>
+</root>

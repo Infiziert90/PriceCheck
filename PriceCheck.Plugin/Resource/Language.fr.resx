@@ -1,0 +1,239 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AllowKeybindAfterHover" xml:space="preserve">
+        <value>Autoriser le raccourci clavier à être pressées après avoir survolé l'objet</value>
+    </data>
+    <data name="AllowKeybindAfterHover_HelpMarker" xml:space="preserve">
+        <value>permet de maintenir le raccourci clavier après l'ouverture de l'infobulle de l'élément (désactiver pour l'ancien comportement)</value>
+    </data>
+    <data name="AveragePrice" xml:space="preserve">
+        <value>Prix moyen</value>
+    </data>
+    <data name="BelowMinimum" xml:space="preserve">
+        <value>En dessous du prix minimum</value>
+    </data>
+    <data name="BelowVendor" xml:space="preserve">
+        <value>Vendre au vendeur</value>
+    </data>
+    <data name="Chat" xml:space="preserve">
+        <value>Chat</value>
+    </data>
+    <data name="ChatChannel" xml:space="preserve">
+        <value>Canal de discussion</value>
+    </data>
+    <data name="ChatChannel_HelpMarker" xml:space="preserve">
+        <value>définir le canal de discussion pour envoyer des messages</value>
+    </data>
+    <data name="ContextMenu" xml:space="preserve">
+        <value>Menu contextuel</value>
+    </data>
+    <data name="CurrentAveragePrice" xml:space="preserve">
+        <value>Prix moyen actuel</value>
+    </data>
+    <data name="CurrentMinimumPrice" xml:space="preserve">
+        <value>Prix minimum actuel</value>
+    </data>
+    <data name="DisplayHeading" xml:space="preserve">
+        <value>Affichage</value>
+    </data>
+    <data name="FailedToGetData" xml:space="preserve">
+        <value>Impossible d'obtenir les données (universalis.app may be down)</value>
+    </data>
+    <data name="FailedToProcess" xml:space="preserve">
+        <value>Échec du traitement de l'objet</value>
+    </data>
+    <data name="Filters" xml:space="preserve">
+        <value>Filters</value>
+    </data>
+    <data name="General" xml:space="preserve">
+        <value>Général</value>
+    </data>
+    <data name="HelpMessage" xml:space="preserve">
+        <value>Pour vérifier les prix, maintenez votre raccourci clavier, puis survolez un objet dans votre inventaire ou un lien dans le chat. Vous pouvez définir votre raccourci clavier (ou le désactiver) dans les paramètres de PriceCheck. Les prix sont des moyennes de Universalis et ne correspondent à aucune annonce spécifique que vous voyez sur le marché. Vous pouvez utiliser /pcheck pour ouvrir l'overlay et /pcheckconfig pour ouvrir les paramètres. Si vous avez besoin d'aide, contactez nous sur discord ou ouvrez une issue sur GitHub. Si vous souhaitez contribuer aux traductions, vous pouvez envoyer des mises à jour sur Crowdin. Les liens vers GitHub et Crowdin sont disponibles dans les paramètres.</value>
+    </data>
+    <data name="HoverDelay" xml:space="preserve">
+        <value>Délai du survol</value>
+    </data>
+    <data name="HoverDelay_HelpMarker" xml:space="preserve">
+        <value>délai (en secondes) avant traitement après survol</value>
+    </data>
+    <data name="InstallThankYou" xml:space="preserve">
+        <value>Merci d'avoir installé PriceCheck !</value>
+    </data>
+    <data name="Keybind" xml:space="preserve">
+        <value>Raccourcis clavier</value>
+    </data>
+    <data name="KeybindEnabled" xml:space="preserve">
+        <value>Utiliser le raccourci clavier</value>
+    </data>
+    <data name="KeybindEnabled_HelpMarker" xml:space="preserve">
+        <value>activer/désactiver si le raccourci clavier est utilisé ou simplement survolé</value>
+    </data>
+    <data name="MaximumPrice" xml:space="preserve">
+        <value>Prix maximum</value>
+    </data>
+    <data name="MaxItems" xml:space="preserve">
+        <value>Eléments Max</value>
+    </data>
+    <data name="MaxItems_HelpMarker" xml:space="preserve">
+        <value>définir le nombre maximum d'éléments dans l'overlay à la fois</value>
+    </data>
+    <data name="MaxUploadDays" xml:space="preserve">
+        <value>Nombre maximum de jours d'upload</value>
+    </data>
+    <data name="MaxUploadDays_HelpMarker" xml:space="preserve">
+        <value>définir l'âge maximum pour éviter l'utilisation d'anciennes données</value>
+    </data>
+    <data name="MinimumPrice" xml:space="preserve">
+        <value>Prix minimum</value>
+    </data>
+    <data name="MinimumPriceDesc" xml:space="preserve">
+        <value>Le prix minimum dans les annonces en cours.</value>
+    </data>
+    <data name="MinimumPrice_HelpMarker" xml:space="preserve">
+        <value>définir le prix minimum à partir duquel la moyenne sera affichée</value>
+    </data>
+    <data name="ModifierKeybind" xml:space="preserve">
+        <value>Modifier</value>
+    </data>
+    <data name="ModifierKeybind_HelpMarker" xml:space="preserve">
+        <value>définir la touche de votre modificateur (ex: shift)</value>
+    </data>
+    <data name="NoDataAvailable" xml:space="preserve">
+        <value>Aucun donné disponible</value>
+    </data>
+    <data name="NoRecentDataAvailable" xml:space="preserve">
+        <value>Aucune donnée récente</value>
+    </data>
+    <data name="Overlay" xml:space="preserve">
+        <value>Overlay</value>
+    </data>
+    <data name="PluginDisabled" xml:space="preserve">
+        <value>Le plugin PriceCheck est désactivé.</value>
+    </data>
+    <data name="PluginEnabled" xml:space="preserve">
+        <value>Plug-in activé</value>
+    </data>
+    <data name="PluginEnabled_HelpMarker" xml:space="preserve">
+        <value>activer/désactiver le plugin</value>
+    </data>
+    <data name="PriceMode" xml:space="preserve">
+        <value>Price Mode</value>
+    </data>
+    <data name="PriceMode_HelpMarker" xml:space="preserve">
+        <value>select price calculation to use</value>
+    </data>
+    <data name="PrimaryKeybind" xml:space="preserve">
+        <value>Principale</value>
+    </data>
+    <data name="PrimaryKeybind_HelpMarker" xml:space="preserve">
+        <value>définir votre touche principale (ex. Aucune, Z)</value>
+    </data>
+    <data name="RestrictInCombat" xml:space="preserve">
+        <value>Don't process in combat</value>
+    </data>
+    <data name="RestrictInCombat_HelpMarker" xml:space="preserve">
+        <value>don't process price checks while in combat</value>
+    </data>
+    <data name="RestrictInContent" xml:space="preserve">
+        <value>Don't process in content</value>
+    </data>
+    <data name="RestrictInContent_HelpMarker" xml:space="preserve">
+        <value>don't process price checks while in content</value>
+    </data>
+    <data name="SellOnMarketboard" xml:space="preserve">
+        <value>Vendre sur le marché</value>
+    </data>
+    <data name="ShowFailedToGetDataInChat" xml:space="preserve">
+        <value>Afficher les erreur de récupération de données</value>
+    </data>
+    <data name="ShowFailedToProcessInChat" xml:space="preserve">
+        <value>Afficher les échecs de traitement</value>
+    </data>
+    <data name="ShowFailedToProcessInChat_HelpMarker" xml:space="preserve">
+        <value>afficher une erreur quand un problème inattendu se produit</value>
+    </data>
+    <data name="ShowInChat" xml:space="preserve">
+        <value>Voir dans la fenêtre de log</value>
+    </data>
+    <data name="ShowInChat_HelpMarker" xml:space="preserve">
+        <value>afficher les résultats de la vérification des prix dans la fenêtre de log</value>
+    </data>
+    <data name="ShowNoDataAvailableInChat" xml:space="preserve">
+        <value>Afficher un avertissement quand il n'y a pas de donnée</value>
+    </data>
+    <data name="ShowNoDataAvailableInChat_HelpMarker" xml:space="preserve">
+        <value>afficher un avertissement quand il n'y a pas de données disponible pour l'objet sur Universalis</value>
+    </data>
+    <data name="ShowOverlay" xml:space="preserve">
+        <value>Afficher l'overlay</value>
+    </data>
+    <data name="ShowOverlayByKeybind" xml:space="preserve">
+        <value>Afficher l'overlay avec un raccourci</value>
+    </data>
+    <data name="ShowOverlayByKeybind_HelpMarker" xml:space="preserve">
+        <value>afficher l'overlay quand un raccourci clavier est appuyé</value>
+    </data>
+    <data name="ShowOverlayOnLogin" xml:space="preserve">
+        <value>Afficher l'overlay à la connexion</value>
+    </data>
+    <data name="ShowOverlayOnLogin_HelpMarker" xml:space="preserve">
+        <value>afficher la fenêtre de l'overlay à la connexion</value>
+    </data>
+    <data name="ShowOverlay_HelpMarker" xml:space="preserve">
+        <value>afficher les résultats de vérification des prix dans l'overlay</value>
+    </data>
+    <data name="ShowPrices" xml:space="preserve">
+        <value>Afficher les prix</value>
+    </data>
+    <data name="ShowPrices_HelpMarker" xml:space="preserve">
+        <value>afficher le prix ou voir les conseils</value>
+    </data>
+    <data name="ShowSuccessInChat" xml:space="preserve">
+        <value>Afficher les vérifications de prix réussies</value>
+    </data>
+    <data name="ShowSuccessInChat_HelpMarker" xml:space="preserve">
+        <value>afficher les vérifications de prix réussies</value>
+    </data>
+    <data name="StyleHeading" xml:space="preserve">
+        <value>Style</value>
+    </data>
+    <data name="Thresholds" xml:space="preserve">
+        <value>Seuils</value>
+    </data>
+    <data name="Unmarketable" xml:space="preserve">
+        <value>Impossible de vendre sur le marché</value>
+    </data>
+    <data name="UseChatColors" xml:space="preserve">
+        <value>Utiliser les couleurs dans la fenêtre de log</value>
+    </data>
+    <data name="UseChatColors_HelpMarker" xml:space="preserve">
+        <value>utiliser des couleurs différentes pour la fenêtre de log en fonction du résultat</value>
+    </data>
+    <data name="UseItemLinks" xml:space="preserve">
+        <value>Utiliser les liens d'objet</value>
+    </data>
+    <data name="UseItemLinks_HelpMarker" xml:space="preserve">
+        <value>utiliser les liens d'objet dans les résultats de la fenêtre de log</value>
+    </data>
+    <data name="UseOverlayColors" xml:space="preserve">
+        <value>Utiliser les couleurs dans l'overlay</value>
+    </data>
+    <data name="UseOverlayColors_HelpMarker" xml:space="preserve">
+        <value>utiliser des couleurs différentes pour l'overlay en fonction du résultat</value>
+    </data>
+    <data name="WaitingForItems" xml:space="preserve">
+        <value>En attente d'objets.</value>
+    </data>
+</root>

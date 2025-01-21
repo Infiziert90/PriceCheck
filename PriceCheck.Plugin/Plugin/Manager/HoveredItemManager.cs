@@ -1,110 +1,111 @@
 using System;
 
-namespace PriceCheck
+namespace PriceCheck;
+
+/// <summary>
+/// Manage item hover events.
+/// </summary>
+public class HoveredItemManager
 {
+    private readonly Plugin Plugin;
+
     /// <summary>
-    /// Manage item hover events.
+    /// Previous id from item hover to allow for holding keybind after hover.
     /// </summary>
-    public class HoveredItemManager
+    public uint ItemId;
+
+    /// <summary>
+    /// Previous item quality from item hover to allow for holding keybind after hover.
+    /// </summary>
+    public bool ItemQuality;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HoveredItemManager"/> class.
+    /// </summary>
+    /// <param name="plugin">plugin.</param>
+    public HoveredItemManager(Plugin plugin)
     {
-        /// <summary>
-        /// Previous id from item hover to allow for holding keybind after hover.
-        /// </summary>
-        public uint ItemId;
+        Plugin = plugin;
+        Plugin.GameGui.HoveredItemChanged += HoveredItemChanged;
+    }
 
-        /// <summary>
-        /// Previous item quality from item hover to allow for holding keybind after hover.
-        /// </summary>
-        public bool ItemQuality;
+    /// <summary>
+    /// Dispose hover item events.
+    /// </summary>
+    public void Dispose()
+    {
+        Plugin.GameGui.HoveredItemChanged -= HoveredItemChanged;
+    }
 
-        private readonly PriceCheckPlugin plugin;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HoveredItemManager"/> class.
-        /// </summary>
-        /// <param name="plugin">plugin.</param>
-        public HoveredItemManager(PriceCheckPlugin plugin)
+    private void HoveredItemChanged(object? sender, ulong itemId)
+    {
+        try
         {
-            this.plugin = plugin;
-            PriceCheckPlugin.GameGui.HoveredItemChanged += this.HoveredItemChanged;
-        }
-
-        /// <summary>
-        /// Dispose hover item events.
-        /// </summary>
-        public void Dispose()
-        {
-            PriceCheckPlugin.GameGui.HoveredItemChanged -= this.HoveredItemChanged;
-        }
-
-        private void HoveredItemChanged(object? sender, ulong itemId)
-        {
-            try
+            // cancel in-flight request
+            if (Plugin.ItemCancellationTokenSource != null)
             {
-                // cancel in-flight request
-                if (this.plugin.ItemCancellationTokenSource != null)
-                {
-                    if (!this.plugin.ItemCancellationTokenSource.IsCancellationRequested)
-                        this.plugin.ItemCancellationTokenSource.Cancel();
-                    this.plugin.ItemCancellationTokenSource.Dispose();
-                }
+                if (!Plugin.ItemCancellationTokenSource.IsCancellationRequested)
+                    Plugin.ItemCancellationTokenSource.Cancel();
 
-                // stop if invalid itemId
-                if (itemId == 0) return;
+                Plugin.ItemCancellationTokenSource.Dispose();
+            }
 
-                // capture itemId/quality
-                uint realItemId;
-                bool itemQuality;
-                if (itemId >= 1000000)
+            // stop if invalid itemId
+            if (itemId == 0)
+                return;
+
+            // capture itemId/quality
+            uint realItemId;
+            bool itemQuality;
+            if (itemId >= 1000000)
+            {
+                realItemId = Convert.ToUInt32(itemId - 1000000);
+                itemQuality = true;
+            }
+            else
+            {
+                realItemId = Convert.ToUInt32(itemId);
+                itemQuality = false;
+            }
+
+            // if keybind without pre-click
+            if (Plugin.Configuration is { KeybindEnabled: true, AllowKeybindAfterHover: false })
+            {
+                // call immediately
+                if (!Plugin.IsKeyBindPressed())
+                    return;
+
+                Plugin.PriceService.ProcessItemAsync(realItemId, itemQuality);
+                return;
+            }
+
+            // if keybind post-click
+            if (Plugin.Configuration is { KeybindEnabled: true, AllowKeybindAfterHover: true })
+            {
+                if (Plugin.IsKeyBindPressed())
                 {
-                    realItemId = Convert.ToUInt32(itemId - 1000000);
-                    itemQuality = true;
+                    // call immediately
+                    Plugin.PriceService.ProcessItemAsync(realItemId, itemQuality);
                 }
                 else
                 {
-                    realItemId = Convert.ToUInt32(itemId);
-                    itemQuality = false;
+                    // save for next keybind press
+                    ItemId = realItemId;
+                    ItemQuality = itemQuality;
                 }
 
-                // if keybind without pre-click
-                if (this.plugin.Configuration is { KeybindEnabled: true, AllowKeybindAfterHover: false })
-                {
-                    // call immediately
-                    if (!this.plugin.IsKeyBindPressed()) return;
-                    this.plugin.PriceService.ProcessItemAsync(realItemId, itemQuality);
-                    return;
-                }
-
-                // if keybind post-click
-                if (this.plugin.Configuration is { KeybindEnabled: true, AllowKeybindAfterHover: true })
-                {
-                    if (this.plugin.IsKeyBindPressed())
-                    {
-                        // call immediately
-                        this.plugin.PriceService.ProcessItemAsync(realItemId, itemQuality);
-                    }
-                    else
-                    {
-                        // save for next keybind press
-                        this.ItemId = realItemId;
-                        this.ItemQuality = itemQuality;
-                    }
-
-                    return;
-                }
-
-                // if no keybind
-                if (!this.plugin.Configuration.KeybindEnabled)
-                {
-                    this.plugin.PriceService.ProcessItemAsync(realItemId, itemQuality);
-                }
+                return;
             }
-            catch (Exception ex)
-            {
-                PriceCheckPlugin.PluginLog.Error(ex, "Failed to price check.");
-                this.ItemId = 0;
-                this.plugin.ItemCancellationTokenSource = null;
-            }
+
+            // if no keybind
+            if (!Plugin.Configuration.KeybindEnabled)
+                Plugin.PriceService.ProcessItemAsync(realItemId, itemQuality);
+        }
+        catch (Exception ex)
+        {
+            Plugin.PluginLog.Error(ex, "Failed to price check.");
+            ItemId = 0;
+            Plugin.ItemCancellationTokenSource = null;
         }
     }
 }

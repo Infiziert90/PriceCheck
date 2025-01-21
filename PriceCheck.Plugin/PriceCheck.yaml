@@ -1,5 +1,5 @@
 ﻿name: PriceCheck
-author: kalilistic
+author: Infi, kalilistic
 punchline: Quickly price check your items.
 description: |-
     To check prices, hold your keybind and then hover over an item or via the item's context menu.
@@ -8,4 +8,4 @@ tags:
     - price
     - marketboard
     - universalis
-repo_url: https://github.com/kalilistic/PriceCheck
+repo_url: https://github.com/Infiziert90/PriceCheck

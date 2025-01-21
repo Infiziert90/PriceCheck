@@ -4,410 +4,427 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using CheapLoc;
-using Dalamud.DrunkenToad.Helpers;
 using Dalamud.Game.Text;
 using Dalamud.Interface.Colors;
-using Lumina.Excel.Sheets;
 
 // ReSharper disable UseCollectionExpression
-namespace PriceCheck
+namespace PriceCheck;
+
+/// <summary>
+/// Pricing service.
+/// </summary>
+public class PriceService
 {
+    private readonly Plugin Plugin;
+    private readonly List<PricedItem> PricedItems = new();
+    private readonly object Locker = new();
+
     /// <summary>
-    /// Pricing service.
+    /// Gets or sets last price check conducted in unix timestamp.
     /// </summary>
-    public class PriceService
+    public long LastPriceCheck { get; set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PriceService"/> class.
+    /// </summary>
+    /// <param name="plugin">price check plugin.</param>
+    public PriceService(Plugin plugin)
     {
-        private readonly PriceCheckPlugin plugin;
-        private readonly List<PricedItem> pricedItems = new ();
-        private readonly object locker = new ();
+        Plugin = plugin;
+        LastPriceCheck = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PriceService"/> class.
-        /// </summary>
-        /// <param name="plugin">price check plugin.</param>
-        public PriceService(PriceCheckPlugin plugin)
+    /// <summary>
+    /// Get priced items.
+    /// </summary>
+    /// <returns>list of priced items.</returns>
+    public IEnumerable<PricedItem> GetItems()
+    {
+        lock (Locker)
         {
-            this.plugin = plugin;
-            this.LastPriceCheck = UnixTimestampHelper.CurrentTime();
+            return PricedItems.ToList();
         }
+    }
 
-        /// <summary>
-        /// Gets or sets last price check conducted in unix timestamp.
-        /// </summary>
-        public long LastPriceCheck { get; set; }
-
-        /// <summary>
-        /// Get priced items.
-        /// </summary>
-        /// <returns>list of priced items.</returns>
-        public IEnumerable<PricedItem> GetItems()
+    /// <summary>
+    /// Clear all items.
+    /// </summary>
+    public void ClearItems()
+    {
+        lock (Locker)
         {
-            lock (this.locker)
-            {
-                return this.pricedItems.ToList();
-            }
+            PricedItems.Clear();
         }
+    }
 
-        /// <summary>
-        /// Clear all items.
-        /// </summary>
-        public void ClearItems()
+    /// <summary>
+    /// Conduct price check.
+    /// </summary>
+    /// <param name="itemId">item id to lookup.</param>
+    /// <param name="isHQ">indicator if item is hq.</param>
+    public void ProcessItemAsync(uint itemId, bool isHQ)
+    {
+        try
         {
-            lock (this.locker)
+            if (!Plugin.ShouldPriceCheck())
+                return;
+
+            // reject if invalid itemId
+            if (itemId == 0)
             {
-                this.pricedItems.Clear();
+                Plugin.ItemCancellationTokenSource = null;
+                return;
             }
-        }
 
-        /// <summary>
-        /// Conduct price check.
-        /// </summary>
-        /// <param name="itemId">item id to lookup.</param>
-        /// <param name="isHQ">indicator if item is hq.</param>
-        public void ProcessItemAsync(uint itemId, bool isHQ)
-        {
-            try
+            // cancel if in-flight request
+            if (Plugin.ItemCancellationTokenSource != null)
             {
-                if (!this.plugin.ShouldPriceCheck()) return;
+                if (!Plugin.ItemCancellationTokenSource.IsCancellationRequested)
+                    Plugin.ItemCancellationTokenSource.Cancel();
 
-                // reject if invalid itemId
-                if (itemId == 0)
-                {
-                    this.plugin.ItemCancellationTokenSource = null;
-                    return;
-                }
-
-                // cancel if in-flight request
-                if (this.plugin.ItemCancellationTokenSource != null)
-                {
-                    if (!this.plugin.ItemCancellationTokenSource.IsCancellationRequested)
-                        this.plugin.ItemCancellationTokenSource.Cancel();
-                    this.plugin.ItemCancellationTokenSource.Dispose();
-                }
-
-                // create new cancel token
-                this.plugin.ItemCancellationTokenSource =
-                    new CancellationTokenSource(this.plugin.Configuration.RequestTimeout * 2);
-
-                // run price check
-                Task.Run(async () =>
-                {
-                    await Task.Delay(
-                                  this.plugin.Configuration.HoverDelay * 1000,
-                                  this.plugin.ItemCancellationTokenSource!.Token)
-                              .ConfigureAwait(false);
-                    this.plugin.PriceService.ProcessItem(itemId, isHQ);
-                });
+                Plugin.ItemCancellationTokenSource.Dispose();
             }
-            catch (Exception ex)
-            {
-                PriceCheckPlugin.PluginLog.Error(ex, "Failed to process item.");
-                this.plugin.ItemCancellationTokenSource = null;
-                this.plugin.HoveredItemManager.ItemId = 0;
-            }
-        }
 
-        private void ProcessItem(uint itemId, bool isHQ)
-        {
-            // reject invalid item id
-            if (itemId == 0) return;
-
-            // create priced item
-            PriceCheckPlugin.PluginLog.Debug($"Pricing itemId={itemId} hq={isHQ}");
-            var pricedItem = new PricedItem
-            {
-                ItemId = itemId,
-                IsHQ = isHQ,
-            };
+            // create new cancel token
+            Plugin.ItemCancellationTokenSource = new CancellationTokenSource(Plugin.Configuration.RequestTimeout * 2);
 
             // run price check
-            this.PriceCheck(pricedItem);
-
-            // check for existing entry for this itemId
-            for (var i = 0; i < this.pricedItems.Count; i++)
+            Task.Run(async () =>
             {
-                if (this.pricedItems[i].ItemId != pricedItem.ItemId) continue;
-                this.pricedItems.RemoveAt(i);
+                await Task.Delay(Plugin.Configuration.HoverDelay * 1000, Plugin.ItemCancellationTokenSource!.Token)
+                          .ConfigureAwait(false);
+
+                Plugin.PriceService.ProcessItem(itemId, isHQ);
+            });
+        }
+        catch (Exception ex)
+        {
+            Plugin.PluginLog.Error(ex, "Failed to process item.");
+            Plugin.ItemCancellationTokenSource = null;
+            Plugin.HoveredItemManager.ItemId = 0;
+        }
+    }
+
+    private void ProcessItem(uint itemId, bool isHQ)
+    {
+        // reject invalid item id
+        if (itemId == 0)
+            return;
+
+        // create priced item
+        Plugin.PluginLog.Debug($"Pricing itemId={itemId} hq={isHQ}");
+        var pricedItem = new PricedItem
+        {
+            ItemId = itemId,
+            IsHQ = isHQ,
+        };
+
+        // run price check
+        PriceCheck(pricedItem);
+
+        // check for existing entry for this itemId
+        lock (Locker)
+        {
+            for (var i = 0; i < PricedItems.Count; i++)
+            {
+                if (PricedItems[i].ItemId != pricedItem.ItemId) continue;
+                PricedItems.RemoveAt(i);
                 break;
             }
-
-            // determine message and colors
-            this.SetFieldsByResult(pricedItem);
-
-            // add to overlay
-            if (this.plugin.Configuration.ShowOverlay)
-            {
-                // remove items over max
-                while (this.pricedItems.Count >= this.plugin.Configuration.MaxItemsInOverlay)
-                {
-                    this.pricedItems.RemoveAt(this.pricedItems.Count - 1);
-                }
-
-                // add item depending on result
-                switch (pricedItem.Result)
-                {
-                    case ItemResult.None:
-                        break;
-                    case ItemResult.Success:
-                        if (this.plugin.Configuration.ShowSuccessInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    case ItemResult.FailedToProcess:
-                        if (this.plugin.Configuration.ShowFailedToProcessInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    case ItemResult.FailedToGetData:
-                        if (this.plugin.Configuration.ShowFailedToGetDataInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    case ItemResult.NoDataAvailable:
-                        if (this.plugin.Configuration.ShowNoDataAvailableInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    case ItemResult.NoRecentDataAvailable:
-                        if (this.plugin.Configuration.ShowNoRecentDataAvailableInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    case ItemResult.BelowVendor:
-                        if (this.plugin.Configuration.ShowBelowVendorInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    case ItemResult.BelowMinimum:
-                        if (this.plugin.Configuration.ShowBelowMinimumInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    case ItemResult.Unmarketable:
-                        if (this.plugin.Configuration.ShowUnmarketableInOverlay) this.AddItemToOverlay(pricedItem);
-                        break;
-                    default:
-                        PriceCheckPlugin.PluginLog.Error("Unrecognized item result.");
-                        break;
-                }
-            }
-
-            // send chat message
-            if (this.plugin.Configuration.ShowInChat)
-            {
-                switch (pricedItem.Result)
-                {
-                    case ItemResult.None:
-                        break;
-                    case ItemResult.Success:
-                        if (this.plugin.Configuration.ShowSuccessInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    case ItemResult.FailedToProcess:
-                        if (this.plugin.Configuration.ShowFailedToProcessInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    case ItemResult.FailedToGetData:
-                        if (this.plugin.Configuration.ShowFailedToGetDataInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    case ItemResult.NoDataAvailable:
-                        if (this.plugin.Configuration.ShowNoDataAvailableInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    case ItemResult.NoRecentDataAvailable:
-                        if (this.plugin.Configuration.ShowNoRecentDataAvailableInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    case ItemResult.BelowVendor:
-                        if (this.plugin.Configuration.ShowBelowVendorInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    case ItemResult.BelowMinimum:
-                        if (this.plugin.Configuration.ShowBelowMinimumInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    case ItemResult.Unmarketable:
-                        if (this.plugin.Configuration.ShowUnmarketableInChat) this.plugin.PrintItemMessage(pricedItem);
-                        break;
-                    default:
-                        PriceCheckPlugin.PluginLog.Error("Unrecognized item result.");
-                        break;
-                }
-            }
-
-            // send toast
-            if (this.plugin.Configuration.ShowToast)
-            {
-                PriceCheckPlugin.SendToast(pricedItem);
-            }
         }
 
-        private void AddItemToOverlay(PricedItem pricedItem)
+        // determine message and colors
+        SetFieldsByResult(pricedItem);
+
+        // add to overlay
+        if (Plugin.Configuration.ShowOverlay)
         {
-            this.plugin.WindowManager.MainWindow!.IsOpen = true;
-            this.pricedItems.Insert(0, pricedItem);
+            // remove items over max
+            lock (Locker)
+            {
+                while (PricedItems.Count >= Plugin.Configuration.MaxItemsInOverlay)
+                {
+                    PricedItems.RemoveAt(PricedItems.Count - 1);
+                }
+            }
+
+            // add item depending on result
+            switch (pricedItem.Result)
+            {
+                case ItemResult.None:
+                    break;
+                case ItemResult.Success:
+                    if (Plugin.Configuration.ShowSuccessInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                case ItemResult.FailedToProcess:
+                    if (Plugin.Configuration.ShowFailedToProcessInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                case ItemResult.FailedToGetData:
+                    if (Plugin.Configuration.ShowFailedToGetDataInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                case ItemResult.NoDataAvailable:
+                    if (Plugin.Configuration.ShowNoDataAvailableInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                case ItemResult.NoRecentDataAvailable:
+                    if (Plugin.Configuration.ShowNoRecentDataAvailableInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                case ItemResult.BelowVendor:
+                    if (Plugin.Configuration.ShowBelowVendorInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                case ItemResult.BelowMinimum:
+                    if (Plugin.Configuration.ShowBelowMinimumInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                case ItemResult.Unmarketable:
+                    if (Plugin.Configuration.ShowUnmarketableInOverlay)
+                        AddItemToOverlay(pricedItem);
+                    break;
+                default:
+                    Plugin.PluginLog.Error("Unrecognized item result.");
+                    break;
+            }
         }
 
-        private void SetFieldsByResult(PricedItem pricedItem)
+        // send chat message
+        if (Plugin.Configuration.ShowInChat)
         {
             switch (pricedItem.Result)
             {
-                case ItemResult.Success:
-                    pricedItem.Message = this.plugin.Configuration.ShowPrices
-                                              ? pricedItem.MarketPrice.ToString("N0", CultureInfo.InvariantCulture)
-                                              : Loc.Localize("SellOnMarketboard", "Sell on marketboard");
-                    pricedItem.OverlayColor = ImGuiColors.HealerGreen;
-                    pricedItem.ChatColor = 45;
-                    break;
                 case ItemResult.None:
-                    pricedItem.Message = Loc.Localize("FailedToGetData", "Failed to get data");
-                    pricedItem.OverlayColor = ImGuiColors.DPSRed;
-                    pricedItem.ChatColor = 17;
+                    break;
+                case ItemResult.Success:
+                    if (Plugin.Configuration.ShowSuccessInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 case ItemResult.FailedToProcess:
-                    pricedItem.Message = Loc.Localize("FailedToProcess", "Failed to process item");
-                    pricedItem.OverlayColor = ImGuiColors.DPSRed;
-                    pricedItem.ChatColor = 17;
+                    if (Plugin.Configuration.ShowFailedToProcessInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 case ItemResult.FailedToGetData:
-                    pricedItem.Message = Loc.Localize("FailedToGetData", "Failed to get data");
-                    pricedItem.OverlayColor = ImGuiColors.DPSRed;
-                    pricedItem.ChatColor = 17;
+                    if (Plugin.Configuration.ShowFailedToGetDataInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 case ItemResult.NoDataAvailable:
-                    pricedItem.Message = Loc.Localize("NoDataAvailable", "No data available");
-                    pricedItem.OverlayColor = ImGuiColors.DPSRed;
-                    pricedItem.ChatColor = 17;
+                    if (Plugin.Configuration.ShowNoDataAvailableInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 case ItemResult.NoRecentDataAvailable:
-                    pricedItem.Message = Loc.Localize("NoRecentDataAvailable", "No recent data");
-                    pricedItem.OverlayColor = ImGuiColors.DPSRed;
-                    pricedItem.ChatColor = 17;
+                    if (Plugin.Configuration.ShowNoRecentDataAvailableInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 case ItemResult.BelowVendor:
-                    pricedItem.Message = Loc.Localize("BelowVendor", "Sell to vendor");
-                    pricedItem.OverlayColor = ImGuiColors.DalamudYellow;
-                    pricedItem.ChatColor = 25;
+                    if (Plugin.Configuration.ShowBelowVendorInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 case ItemResult.BelowMinimum:
-                    pricedItem.Message = Loc.Localize("BelowMinimum", "Below minimum price");
-                    pricedItem.OverlayColor = ImGuiColors.DalamudYellow;
-                    pricedItem.ChatColor = 25;
+                    if (Plugin.Configuration.ShowBelowMinimumInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 case ItemResult.Unmarketable:
-                    pricedItem.Message = Loc.Localize("Unmarketable", "Can't sell on marketboard");
-                    pricedItem.OverlayColor = ImGuiColors.DalamudYellow;
-                    pricedItem.ChatColor = 25;
+                    if (Plugin.Configuration.ShowUnmarketableInChat)
+                        Plugin.PrintItemMessage(pricedItem);
                     break;
                 default:
-                    pricedItem.Message = Loc.Localize("FailedToProcess", "Failed to process item");
-                    pricedItem.OverlayColor = ImGuiColors.DPSRed;
-                    pricedItem.ChatColor = 17;
+                    Plugin.PluginLog.Error("Unrecognized item result.");
                     break;
             }
-
-            PriceCheckPlugin.PluginLog.Debug($"Message={pricedItem.Message}");
         }
 
-        private void PriceCheck(PricedItem pricedItem)
+        // send toast
+        if (Plugin.Configuration.ShowToast)
+            Plugin.SendToast(pricedItem);
+    }
+
+    private void AddItemToOverlay(PricedItem pricedItem)
+    {
+        Plugin.MainWindow.IsOpen = true;
+        lock (Locker)
         {
-            // record current time for window visibility
-            this.LastPriceCheck = UnixTimestampHelper.CurrentTime();
-            PriceCheckPlugin.PluginLog.Debug($"LastPriceCheck={this.LastPriceCheck}");
-
-            // look up item game data
-            var item = PriceCheckPlugin.DataManager.GameData.Excel.GetSheet<Item>().GetRowOrDefault(pricedItem.ItemId);
-
-            if (item == null)
-            {
-                pricedItem.Result = ItemResult.FailedToProcess;
-                PriceCheckPlugin.PluginLog.Error($"Failed to retrieve game data for itemId {pricedItem.ItemId}.");
-                return;
-            }
-
-            // set fields from game data
-            pricedItem.ItemName = pricedItem.IsHQ ? item.Value.Name.ExtractText() + " " + (char)SeIconChar.HighQuality : item.Value.Name.ExtractText();
-            PriceCheckPlugin.PluginLog.Debug($"ItemName={pricedItem.ItemName}");
-            pricedItem.IsMarketable = item.Value.ItemSearchCategory.RowId != 0;
-            PriceCheckPlugin.PluginLog.Debug($"IsMarketable={pricedItem.IsMarketable}");
-            pricedItem.VendorPrice = item.Value.PriceLow;
-            PriceCheckPlugin.PluginLog.Debug($"VendorPrice={pricedItem.VendorPrice}");
-
-            // check if marketable
-            if (!pricedItem.IsMarketable)
-            {
-                pricedItem.Result = ItemResult.Unmarketable;
-                return;
-            }
-
-            // set worldId
-            var worldId = PriceCheckPlugin.ClientState.LocalPlayer?.HomeWorld.RowId ?? 0;
-            PriceCheckPlugin.PluginLog.Debug($"worldId={worldId}");
-            if (worldId == 0)
-            {
-                pricedItem.Result = ItemResult.FailedToProcess;
-                return;
-            }
-
-            // lookup market data
-            MarketBoardData? marketBoardData;
-            try
-            {
-                marketBoardData = this.plugin.UniversalisClient.GetMarketBoard(worldId, pricedItem.ItemId);
-            }
-            catch (Exception ex)
-            {
-                PriceCheckPlugin.PluginLog.Error(ex, "Caught exception trying to get marketboard data.");
-                marketBoardData = null;
-            }
-
-            // validate marketboard response
-            if (marketBoardData == null)
-            {
-                pricedItem.Result = ItemResult.FailedToGetData;
-                PriceCheckPlugin.PluginLog.Error("Failed to get marketboard data.");
-                return;
-            }
-
-            // validate marketboard data
-            if (marketBoardData.AveragePriceNQ == null || marketBoardData.LastCheckTime == 0)
-            {
-                pricedItem.Result = ItemResult.NoDataAvailable;
-                return;
-            }
-
-            // set market price
-            double? marketPrice = null;
-            if (this.plugin.Configuration.PriceMode == PriceMode.AveragePrice.Index)
-                marketPrice = pricedItem.IsHQ ? marketBoardData.AveragePriceHQ : marketBoardData.AveragePriceNQ;
-            else if (this.plugin.Configuration.PriceMode == PriceMode.CurrentAveragePrice.Index)
-                marketPrice = pricedItem.IsHQ ? marketBoardData.CurrentAveragePriceHQ : marketBoardData.CurrentAveragePriceNQ;
-            else if (this.plugin.Configuration.PriceMode == PriceMode.MinimumPrice.Index)
-                marketPrice = pricedItem.IsHQ ? marketBoardData.MinimumPriceHQ : marketBoardData.MinimumPriceNQ;
-            else if (this.plugin.Configuration.PriceMode == PriceMode.MaximumPrice.Index)
-                marketPrice = pricedItem.IsHQ ? marketBoardData.MaximumPriceHQ : marketBoardData.MaximumPriceNQ;
-            else if (this.plugin.Configuration.PriceMode == PriceMode.CurrentMinimumPrice.Index)
-                marketPrice = marketBoardData.CurrentMinimumPrice;
-            if (marketPrice is null or 0)
-            {
-                pricedItem.Result = ItemResult.NoDataAvailable;
-                return;
-            }
-
-            marketPrice = Math.Round((double)marketPrice);
-            pricedItem.MarketPrice = (uint)marketPrice;
-            PriceCheckPlugin.PluginLog.Debug($"marketPrice={pricedItem.MarketPrice}");
-
-            // compare with date threshold
-            var diffInSeconds = UnixTimestampHelper.CurrentTime() - pricedItem.LastUpdated;
-            var diffInDays = diffInSeconds / 86400000;
-            PriceCheckPlugin.PluginLog.Debug($"Max Days Check: diffDays={diffInDays} >= maxUpload={this.plugin.Configuration.MaxUploadDays}");
-            if (diffInDays >= this.plugin.Configuration.MaxUploadDays)
-            {
-                pricedItem.Result = ItemResult.NoRecentDataAvailable;
-                return;
-            }
-
-            // compare with vendor price
-            PriceCheckPlugin.PluginLog.Debug($"Vendor Check: vendorPrice={pricedItem.VendorPrice} >= marketPrice={pricedItem.MarketPrice}");
-            if (pricedItem.VendorPrice >= pricedItem.MarketPrice)
-            {
-                pricedItem.Result = ItemResult.BelowVendor;
-                return;
-            }
-
-            // compare with price threshold
-            PriceCheckPlugin.PluginLog.Debug($"Min Check: marketPrice={pricedItem.MarketPrice} < minPrice={this.plugin.Configuration.MinPrice}");
-            if (pricedItem.MarketPrice < this.plugin.Configuration.MinPrice)
-            {
-                pricedItem.Result = ItemResult.BelowMinimum;
-                return;
-            }
-
-            // made it - set as success
-            pricedItem.Result = ItemResult.Success;
+            PricedItems.Insert(0, pricedItem);
         }
+    }
+
+    private void SetFieldsByResult(PricedItem pricedItem)
+    {
+        switch (pricedItem.Result)
+        {
+            case ItemResult.Success:
+                pricedItem.Message = Plugin.Configuration.ShowPrices
+                                         ? pricedItem.MarketPrice.ToString("N0", CultureInfo.InvariantCulture)
+                                         : Language.SellOnMarketboard;
+                pricedItem.OverlayColor = ImGuiColors.HealerGreen;
+                pricedItem.ChatColor = 45;
+                break;
+            case ItemResult.None:
+                pricedItem.Message = Language.FailedToGetData;
+                pricedItem.OverlayColor = ImGuiColors.DPSRed;
+                pricedItem.ChatColor = 17;
+                break;
+            case ItemResult.FailedToProcess:
+                pricedItem.Message = Language.FailedToProcess;
+                pricedItem.OverlayColor = ImGuiColors.DPSRed;
+                pricedItem.ChatColor = 17;
+                break;
+            case ItemResult.FailedToGetData:
+                pricedItem.Message = Language.FailedToGetData;
+                pricedItem.OverlayColor = ImGuiColors.DPSRed;
+                pricedItem.ChatColor = 17;
+                break;
+            case ItemResult.NoDataAvailable:
+                pricedItem.Message = Language.NoDataAvailable;
+                pricedItem.OverlayColor = ImGuiColors.DPSRed;
+                pricedItem.ChatColor = 17;
+                break;
+            case ItemResult.NoRecentDataAvailable:
+                pricedItem.Message = Language.NoRecentDataAvailable;
+                pricedItem.OverlayColor = ImGuiColors.DPSRed;
+                pricedItem.ChatColor = 17;
+                break;
+            case ItemResult.BelowVendor:
+                pricedItem.Message = Language.BelowVendor;
+                pricedItem.OverlayColor = ImGuiColors.DalamudYellow;
+                pricedItem.ChatColor = 25;
+                break;
+            case ItemResult.BelowMinimum:
+                pricedItem.Message = Language.BelowMinimum;
+                pricedItem.OverlayColor = ImGuiColors.DalamudYellow;
+                pricedItem.ChatColor = 25;
+                break;
+            case ItemResult.Unmarketable:
+                pricedItem.Message = Language.Unmarketable;
+                pricedItem.OverlayColor = ImGuiColors.DalamudYellow;
+                pricedItem.ChatColor = 25;
+                break;
+            default:
+                pricedItem.Message = Language.FailedToProcess;
+                pricedItem.OverlayColor = ImGuiColors.DPSRed;
+                pricedItem.ChatColor = 17;
+                break;
+        }
+
+        Plugin.PluginLog.Debug($"Message={pricedItem.Message}");
+    }
+
+    private void PriceCheck(PricedItem pricedItem)
+    {
+        // record current time for window visibility
+        LastPriceCheck = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        Plugin.PluginLog.Debug($"LastPriceCheck={LastPriceCheck}");
+
+        if (!Sheets.ItemSheet.TryGetRow(pricedItem.ItemId, out var item))
+        {
+            pricedItem.Result = ItemResult.FailedToProcess;
+            Plugin.PluginLog.Error($"Failed to retrieve game data for itemId {pricedItem.ItemId}.");
+            return;
+        }
+
+        // set fields from game data
+        pricedItem.ItemName = pricedItem.IsHQ ? $"{item.Name.ExtractText()} {SeIconChar.HighQuality.ToIconChar()}" : item.Name.ExtractText();
+        Plugin.PluginLog.Debug($"ItemName={pricedItem.ItemName}");
+        pricedItem.IsMarketable = item.ItemSearchCategory.RowId != 0;
+        Plugin.PluginLog.Debug($"IsMarketable={pricedItem.IsMarketable}");
+        pricedItem.VendorPrice = item.PriceLow;
+        Plugin.PluginLog.Debug($"VendorPrice={pricedItem.VendorPrice}");
+
+        // check if marketable
+        if (!pricedItem.IsMarketable)
+        {
+            pricedItem.Result = ItemResult.Unmarketable;
+            return;
+        }
+
+        // set worldId
+        var worldId = Plugin.ClientState.LocalPlayer?.HomeWorld.RowId ?? 0;
+        Plugin.PluginLog.Debug($"worldId={worldId}");
+        if (worldId == 0)
+        {
+            pricedItem.Result = ItemResult.FailedToProcess;
+            return;
+        }
+
+        // lookup market data
+        MarketBoardData? marketBoardData;
+        try
+        {
+            marketBoardData = Plugin.UniversalisClient.GetMarketBoard(worldId, pricedItem.ItemId);
+        }
+        catch (Exception ex)
+        {
+            Plugin.PluginLog.Error(ex, "Caught exception trying to get marketboard data.");
+            marketBoardData = null;
+        }
+
+        // validate marketboard response
+        if (marketBoardData == null)
+        {
+            pricedItem.Result = ItemResult.FailedToGetData;
+            Plugin.PluginLog.Error("Failed to get marketboard data.");
+            return;
+        }
+
+        // validate marketboard data
+        if (marketBoardData.AveragePriceNQ == null || marketBoardData.LastCheckTime == 0)
+        {
+            pricedItem.Result = ItemResult.NoDataAvailable;
+            return;
+        }
+
+        // set market price
+        double? marketPrice = null;
+        if (Plugin.Configuration.PriceMode == PriceMode.AveragePrice.Index)
+            marketPrice = pricedItem.IsHQ ? marketBoardData.AveragePriceHQ : marketBoardData.AveragePriceNQ;
+        else if (Plugin.Configuration.PriceMode == PriceMode.CurrentAveragePrice.Index)
+            marketPrice = pricedItem.IsHQ ? marketBoardData.CurrentAveragePriceHQ : marketBoardData.CurrentAveragePriceNQ;
+        else if (Plugin.Configuration.PriceMode == PriceMode.MinimumPrice.Index)
+            marketPrice = pricedItem.IsHQ ? marketBoardData.MinimumPriceHQ : marketBoardData.MinimumPriceNQ;
+        else if (Plugin.Configuration.PriceMode == PriceMode.MaximumPrice.Index)
+            marketPrice = pricedItem.IsHQ ? marketBoardData.MaximumPriceHQ : marketBoardData.MaximumPriceNQ;
+        else if (Plugin.Configuration.PriceMode == PriceMode.CurrentMinimumPrice.Index)
+            marketPrice = marketBoardData.CurrentMinimumPrice;
+
+        if (marketPrice is null or 0)
+        {
+            pricedItem.Result = ItemResult.NoDataAvailable;
+            return;
+        }
+
+        marketPrice = Math.Round((double)marketPrice);
+        pricedItem.MarketPrice = (uint)marketPrice;
+        Plugin.PluginLog.Debug($"marketPrice={pricedItem.MarketPrice}");
+
+        // compare with date threshold
+        var diffInSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - pricedItem.LastUpdated;
+        var diffInDays = diffInSeconds / 86400000;
+        Plugin.PluginLog.Debug($"Max Days Check: diffDays={diffInDays} >= maxUpload={Plugin.Configuration.MaxUploadDays}");
+        if (diffInDays >= Plugin.Configuration.MaxUploadDays)
+        {
+            pricedItem.Result = ItemResult.NoRecentDataAvailable;
+            return;
+        }
+
+        // compare with vendor price
+        Plugin.PluginLog.Debug($"Vendor Check: vendorPrice={pricedItem.VendorPrice} >= marketPrice={pricedItem.MarketPrice}");
+        if (pricedItem.VendorPrice >= pricedItem.MarketPrice)
+        {
+            pricedItem.Result = ItemResult.BelowVendor;
+            return;
+        }
+
+        // compare with price threshold
+        Plugin.PluginLog.Debug($"Min Check: marketPrice={pricedItem.MarketPrice} < minPrice={Plugin.Configuration.MinPrice}");
+        if (pricedItem.MarketPrice < Plugin.Configuration.MinPrice)
+        {
+            pricedItem.Result = ItemResult.BelowMinimum;
+            return;
+        }
+
+        // made it - set as success
+        pricedItem.Result = ItemResult.Success;
     }
 }

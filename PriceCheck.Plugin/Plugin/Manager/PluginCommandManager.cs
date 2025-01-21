@@ -1,61 +1,60 @@
 using Dalamud.Game.Command;
 
-namespace PriceCheck
+namespace PriceCheck;
+
+/// <summary>
+/// Manage plugin commands.
+/// </summary>
+public class PluginCommandManager
 {
+    private readonly Plugin Plugin;
+
     /// <summary>
-    /// Manage plugin commands.
+    /// Initializes a new instance of the <see cref="PluginCommandManager"/> class.
     /// </summary>
-    public class PluginCommandManager
+    /// <param name="plugin">plugin.</param>
+    public PluginCommandManager(Plugin plugin)
     {
-        private readonly PriceCheckPlugin plugin;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PluginCommandManager"/> class.
-        /// </summary>
-        /// <param name="plugin">plugin.</param>
-        public PluginCommandManager(PriceCheckPlugin plugin)
+        this.Plugin = plugin;
+        Plugin.CommandManager.AddHandler("/pcheck", new CommandInfo(this.TogglePriceCheck)
         {
-            this.plugin = plugin;
-            PriceCheckPlugin.CommandManager.AddHandler("/pcheck", new CommandInfo(this.TogglePriceCheck)
-            {
-                HelpMessage = "Show price check.",
-                ShowInHelp = true,
-            });
-            PriceCheckPlugin.CommandManager.AddHandler("/pricecheck", new CommandInfo(this.TogglePriceCheck)
-            {
-                ShowInHelp = false,
-            });
-            PriceCheckPlugin.CommandManager.AddHandler("/pcheckconfig", new CommandInfo(this.ToggleConfig)
-            {
-                HelpMessage = "Show price check config.",
-                ShowInHelp = true,
-            });
-            PriceCheckPlugin.CommandManager.AddHandler("/pricecheckconfig", new CommandInfo(this.ToggleConfig)
-            {
-                ShowInHelp = false,
-            });
-        }
-
-        /// <summary>
-        /// Dispose command manager.
-        /// </summary>
-        public static void Dispose()
+            HelpMessage = "Show price check.",
+            ShowInHelp = true,
+        });
+        Plugin.CommandManager.AddHandler("/pricecheck", new CommandInfo(this.TogglePriceCheck)
         {
-            PriceCheckPlugin.CommandManager.RemoveHandler("/pcheck");
-            PriceCheckPlugin.CommandManager.RemoveHandler("/pricecheck");
-            PriceCheckPlugin.CommandManager.RemoveHandler("/pcheckconfig");
-            PriceCheckPlugin.CommandManager.RemoveHandler("/pricecheckconfig");
-        }
-
-        private void ToggleConfig(string command, string args)
+            ShowInHelp = false,
+        });
+        Plugin.CommandManager.AddHandler("/pcheckconfig", new CommandInfo(this.ToggleConfig)
         {
-            this.plugin.WindowManager.ConfigWindow!.Toggle();
-        }
-
-        private void TogglePriceCheck(string command, string args)
+            HelpMessage = "Show price check config.",
+            ShowInHelp = true,
+        });
+        Plugin.CommandManager.AddHandler("/pricecheckconfig", new CommandInfo(this.ToggleConfig)
         {
-            this.plugin.Configuration.ShowOverlay = !this.plugin.Configuration.ShowOverlay;
-            this.plugin.WindowManager.MainWindow!.Toggle();
-        }
+            ShowInHelp = false,
+        });
+    }
+
+    /// <summary>
+    /// Dispose command manager.
+    /// </summary>
+    public static void Dispose()
+    {
+        Plugin.CommandManager.RemoveHandler("/pcheck");
+        Plugin.CommandManager.RemoveHandler("/pricecheck");
+        Plugin.CommandManager.RemoveHandler("/pcheckconfig");
+        Plugin.CommandManager.RemoveHandler("/pricecheckconfig");
+    }
+
+    private void ToggleConfig(string command, string args)
+    {
+        Plugin.ConfigWindow.Toggle();
+    }
+
+    private void TogglePriceCheck(string command, string args)
+    {
+        this.Plugin.Configuration.ShowOverlay = !this.Plugin.Configuration.ShowOverlay;
+        Plugin.MainWindow.Toggle();
     }
 }
