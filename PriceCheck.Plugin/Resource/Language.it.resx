@@ -110,18 +110,6 @@
     <data name="PrimaryKeybind_HelpMarker" xml:space="preserve">
         <value>imposta tasto carattere (es: nessuno, Z)</value>
     </data>
-    <data name="RestrictInCombat" xml:space="preserve">
-        <value>Don't process in combat</value>
-    </data>
-    <data name="RestrictInCombat_HelpMarker" xml:space="preserve">
-        <value>don't process price checks while in combat</value>
-    </data>
-    <data name="RestrictInContent" xml:space="preserve">
-        <value>Don't process in content</value>
-    </data>
-    <data name="RestrictInContent_HelpMarker" xml:space="preserve">
-        <value>don't process price checks while in content</value>
-    </data>
     <data name="SellOnMarketboard" xml:space="preserve">
         <value>Vendi sul mercato</value>
     </data>

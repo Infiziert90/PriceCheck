@@ -23,15 +23,6 @@
     <data name="AveragePriceDesc" xml:space="preserve">
         <value>El precio de venta medio en el historial de ventas recientes, con los valores atípicos eliminados más allá de tres desviaciones estándar de la media.</value>
     </data>
-    <data name="BelowMinimum" xml:space="preserve">
-        <value>Below minimum price</value>
-    </data>
-    <data name="BelowVendor" xml:space="preserve">
-        <value>Sell to vendor</value>
-    </data>
-    <data name="Chat" xml:space="preserve">
-        <value>Chat</value>
-    </data>
     <data name="ChatChannel" xml:space="preserve">
         <value>Canal de chat</value>
     </data>
@@ -59,20 +50,11 @@
     <data name="DisplayHeading" xml:space="preserve">
         <value>Visualización</value>
     </data>
-    <data name="FailedToGetData" xml:space="preserve">
-        <value>Failed to get data (universalis.app may be down)</value>
-    </data>
     <data name="FailedToProcess" xml:space="preserve">
         <value>No se ha podido procesar objeto</value>
     </data>
-    <data name="Filters" xml:space="preserve">
-        <value>Filters</value>
-    </data>
     <data name="FiltersHeading" xml:space="preserve">
         <value>Filtros</value>
-    </data>
-    <data name="General" xml:space="preserve">
-        <value>General</value>
     </data>
     <data name="HelpMessage" xml:space="preserve">
         <value>To check prices, hold your keybind and then hover over an item in your inventory or linked in chat. You can set your keybind (or disable it) in the PriceCheck settings. The prices are averages from Universalis and will not match any specific listings you see on the market board. You can use /pcheck to open the overlay and /pcheckconfig to open settings. If you need help, reach out on discord or open an issue on GitHub. If you want to help add translations, you can submit updates on Crowdin. Links to both GitHub and Crowdin are available in settings.</value>
@@ -83,24 +65,6 @@
     <data name="HideOverlayTimer_HelpMarker" xml:space="preserve">
         <value>esconde el overlay tras x segundos desde la última comprobación de precio - puedes desactivarlo poniendo cero.</value>
     </data>
-    <data name="HoverDelay" xml:space="preserve">
-        <value>Hover Delay</value>
-    </data>
-    <data name="HoverDelay_HelpMarker" xml:space="preserve">
-        <value>delay (in seconds) before processing after hovering</value>
-    </data>
-    <data name="InstallThankYou" xml:space="preserve">
-        <value>Thank you for installing PriceCheck!</value>
-    </data>
-    <data name="Keybind" xml:space="preserve">
-        <value>Keybind</value>
-    </data>
-    <data name="KeybindEnabled" xml:space="preserve">
-        <value>Use Keybind</value>
-    </data>
-    <data name="KeybindEnabled_HelpMarker" xml:space="preserve">
-        <value>toggle if keybind is used or just hover</value>
-    </data>
     <data name="MaximumPrice" xml:space="preserve">
         <value>Precio Máximo</value>
     </data>
@@ -110,74 +74,8 @@
     <data name="MaxItems" xml:space="preserve">
         <value>Max Items</value>
     </data>
-    <data name="MaxItems_HelpMarker" xml:space="preserve">
-        <value>set max number of items in overlay at a time</value>
-    </data>
-    <data name="MaxUploadDays" xml:space="preserve">
-        <value>Max Upload Days</value>
-    </data>
-    <data name="MaxUploadDays_HelpMarker" xml:space="preserve">
-        <value>set maximum age to avoid using old data</value>
-    </data>
-    <data name="MinimumPrice" xml:space="preserve">
-        <value>Minimum Price</value>
-    </data>
     <data name="MinimumPriceDesc" xml:space="preserve">
         <value>El precio mínimo en los listados actuales.</value>
-    </data>
-    <data name="MinimumPrice_HelpMarker" xml:space="preserve">
-        <value>set minimum price at which actual average will be displayed</value>
-    </data>
-    <data name="ModifierKeybind" xml:space="preserve">
-        <value>Modifier</value>
-    </data>
-    <data name="ModifierKeybind_HelpMarker" xml:space="preserve">
-        <value>set your modifier key (e.g. shift)</value>
-    </data>
-    <data name="NoDataAvailable" xml:space="preserve">
-        <value>No data available</value>
-    </data>
-    <data name="NoRecentDataAvailable" xml:space="preserve">
-        <value>No recent data</value>
-    </data>
-    <data name="Overlay" xml:space="preserve">
-        <value>Overlay</value>
-    </data>
-    <data name="PluginDisabled" xml:space="preserve">
-        <value>PriceCheckPlugin is disabled.</value>
-    </data>
-    <data name="PluginEnabled" xml:space="preserve">
-        <value>Plugin Enabled</value>
-    </data>
-    <data name="PluginEnabled_HelpMarker" xml:space="preserve">
-        <value>toggle the plugin on/off</value>
-    </data>
-    <data name="PriceMode" xml:space="preserve">
-        <value>Price Mode</value>
-    </data>
-    <data name="PriceMode_HelpMarker" xml:space="preserve">
-        <value>select price calculation to use</value>
-    </data>
-    <data name="PrimaryKeybind" xml:space="preserve">
-        <value>Primary</value>
-    </data>
-    <data name="PrimaryKeybind_HelpMarker" xml:space="preserve">
-        <value>set your primary key (e.g. None, Z)</value>
-    </data>
-    <data name="RestrictInCombat" xml:space="preserve">
-        <value>Don't process in combat</value>
-    </data>
-    <data name="RestrictInCombat_HelpMarker" xml:space="preserve">
-        <value>don't process price checks while in combat</value>
-    </data>
-    <data name="RestrictInContent" xml:space="preserve">
-        <value>Don't process in content</value>
-    </data>
-    <data name="RestrictInContent_HelpMarker" xml:space="preserve">
-        <value>don't process price checks while in content</value>
-    </data>
-    <data name="SellOnMarketboard" xml:space="preserve">
-        <value>Sell on marketboard</value>
     </data>
     <data name="ShowBelowMinimumInChat" xml:space="preserve">
         <value>Mostrar advertencia de "más barato que el umbral mínimo"</value>
@@ -230,12 +128,6 @@
     <data name="ShowFailedToProcessInOverlay_HelpMarker" xml:space="preserve">
         <value>muestra un error cuando algo vaya mal de manera inesperada</value>
     </data>
-    <data name="ShowInChat" xml:space="preserve">
-        <value>Show in Chat</value>
-    </data>
-    <data name="ShowInChat_HelpMarker" xml:space="preserve">
-        <value>show price check results in chat</value>
-    </data>
     <data name="ShowKeybindInTitleBar" xml:space="preserve">
         <value>Mostrar atajo de teclado en la barra de título</value>
     </data>
@@ -266,9 +158,6 @@
     <data name="ShowNoRecentDataAvailableInOverlay_HelpMarker" xml:space="preserve">
         <value>muestra una advertencia cuando no hayan datos recientes en universalis para el objeto, dentro de tu umbral</value>
     </data>
-    <data name="ShowOverlay" xml:space="preserve">
-        <value>Show Overlay</value>
-    </data>
     <data name="ShowOverlayByKeybind" xml:space="preserve">
         <value>Mostrar overlay al pulsar combinación de teclas</value>
     </data>
@@ -280,15 +169,6 @@
     </data>
     <data name="ShowOverlayOnLogin_HelpMarker" xml:space="preserve">
         <value>muestra la ventana del overlay al iniciar sesión</value>
-    </data>
-    <data name="ShowOverlay_HelpMarker" xml:space="preserve">
-        <value>show price check results in overlay window</value>
-    </data>
-    <data name="ShowPrices" xml:space="preserve">
-        <value>Show Prices</value>
-    </data>
-    <data name="ShowPrices_HelpMarker" xml:space="preserve">
-        <value>show price or just show advice</value>
     </data>
     <data name="ShowSuccessInChat" xml:space="preserve">
         <value>Mostrar comprobación de precio exitosa</value>
@@ -323,40 +203,7 @@
     <data name="StyleHeading" xml:space="preserve">
         <value>Estilo</value>
     </data>
-    <data name="Thresholds" xml:space="preserve">
-        <value>Thresholds</value>
-    </data>
-    <data name="TitleBarWithKeybind1" xml:space="preserve">
-        <value>PriceCheck ({0})</value>
-    </data>
-    <data name="TitleBarWithKeybind2" xml:space="preserve">
-        <value>PriceCheck ({0}+{1})</value>
-    </data>
     <data name="Toast" xml:space="preserve">
         <value>Notificación</value>
-    </data>
-    <data name="Unmarketable" xml:space="preserve">
-        <value>Can't sell on marketboard</value>
-    </data>
-    <data name="UseChatColors" xml:space="preserve">
-        <value>Use Chat Colors</value>
-    </data>
-    <data name="UseChatColors_HelpMarker" xml:space="preserve">
-        <value>use different colors for chat based on result</value>
-    </data>
-    <data name="UseItemLinks" xml:space="preserve">
-        <value>Use Item Links</value>
-    </data>
-    <data name="UseItemLinks_HelpMarker" xml:space="preserve">
-        <value>use item links in chat results</value>
-    </data>
-    <data name="UseOverlayColors" xml:space="preserve">
-        <value>Use Overlay Colors</value>
-    </data>
-    <data name="UseOverlayColors_HelpMarker" xml:space="preserve">
-        <value>use different colors for overlay based on result</value>
-    </data>
-    <data name="WaitingForItems" xml:space="preserve">
-        <value>Waiting for items.</value>
     </data>
 </root>

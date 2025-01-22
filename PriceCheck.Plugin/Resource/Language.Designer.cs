@@ -267,7 +267,7 @@ namespace PriceCheck {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to hide overlay after x amount of seconds since last price check - you can this by setting to zero..
+        ///   Looks up a localized string similar to hide overlay after x amount of seconds since last price check - you can disable this by setting to zero..
         /// </summary>
         internal static string HideOverlayTimer_HelpMarker {
             get {

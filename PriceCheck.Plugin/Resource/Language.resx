@@ -172,7 +172,7 @@
         <value>Hide overlay timer</value>
     </data>
     <data name="HideOverlayTimer_HelpMarker" xml:space="preserve">
-        <value>hide overlay after x amount of seconds since last price check - you can this by setting to zero.</value>
+        <value>hide overlay after x amount of seconds since last price check - you can disable this by setting to zero.</value>
     </data>
     <data name="FiltersHeading" xml:space="preserve">
         <value>Filters</value>

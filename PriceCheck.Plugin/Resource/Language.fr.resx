@@ -53,9 +53,6 @@
     <data name="FailedToProcess" xml:space="preserve">
         <value>Échec du traitement de l'objet</value>
     </data>
-    <data name="Filters" xml:space="preserve">
-        <value>Filters</value>
-    </data>
     <data name="General" xml:space="preserve">
         <value>Général</value>
     </data>
@@ -104,9 +101,6 @@
     <data name="MinimumPrice_HelpMarker" xml:space="preserve">
         <value>définir le prix minimum à partir duquel la moyenne sera affichée</value>
     </data>
-    <data name="ModifierKeybind" xml:space="preserve">
-        <value>Modifier</value>
-    </data>
     <data name="ModifierKeybind_HelpMarker" xml:space="preserve">
         <value>définir la touche de votre modificateur (ex: shift)</value>
     </data>
@@ -115,9 +109,6 @@
     </data>
     <data name="NoRecentDataAvailable" xml:space="preserve">
         <value>Aucune donnée récente</value>
-    </data>
-    <data name="Overlay" xml:space="preserve">
-        <value>Overlay</value>
     </data>
     <data name="PluginDisabled" xml:space="preserve">
         <value>Le plugin PriceCheck est désactivé.</value>
@@ -131,26 +122,11 @@
     <data name="PriceMode" xml:space="preserve">
         <value>Price Mode</value>
     </data>
-    <data name="PriceMode_HelpMarker" xml:space="preserve">
-        <value>select price calculation to use</value>
-    </data>
     <data name="PrimaryKeybind" xml:space="preserve">
         <value>Principale</value>
     </data>
     <data name="PrimaryKeybind_HelpMarker" xml:space="preserve">
         <value>définir votre touche principale (ex. Aucune, Z)</value>
-    </data>
-    <data name="RestrictInCombat" xml:space="preserve">
-        <value>Don't process in combat</value>
-    </data>
-    <data name="RestrictInCombat_HelpMarker" xml:space="preserve">
-        <value>don't process price checks while in combat</value>
-    </data>
-    <data name="RestrictInContent" xml:space="preserve">
-        <value>Don't process in content</value>
-    </data>
-    <data name="RestrictInContent_HelpMarker" xml:space="preserve">
-        <value>don't process price checks while in content</value>
     </data>
     <data name="SellOnMarketboard" xml:space="preserve">
         <value>Vendre sur le marché</value>
@@ -205,9 +181,6 @@
     </data>
     <data name="ShowSuccessInChat_HelpMarker" xml:space="preserve">
         <value>afficher les vérifications de prix réussies</value>
-    </data>
-    <data name="StyleHeading" xml:space="preserve">
-        <value>Style</value>
     </data>
     <data name="Thresholds" xml:space="preserve">
         <value>Seuils</value>
