@@ -29,7 +29,7 @@ public class Plugin : IDalamudPlugin
     [PluginService] public static IDataManager DataManager { get; private set; } = null!;
     [PluginService] public static ICondition Condition { get; private set; } = null!;
     [PluginService] public static IGameGui GameGui { get; private set; } = null!;
-    [PluginService] public static IContextMenu ContextMenu { get; private set; } = null!;
+    [PluginService] public static IFramework Framework { get; private set; } = null!;
 
     /// <summary>
     /// Cancellation token to terminate request if interrupted.

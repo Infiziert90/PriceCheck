@@ -94,7 +94,7 @@ public class PriceService
                 await Task.Delay(Plugin.Configuration.HoverDelay * 1000, Plugin.ItemCancellationTokenSource!.Token)
                           .ConfigureAwait(false);
 
-                Plugin.PriceService.ProcessItem(itemId, isHQ);
+                await Plugin.PriceService.ProcessItem(itemId, isHQ);
             });
         }
         catch (Exception ex)
@@ -105,7 +105,7 @@ public class PriceService
         }
     }
 
-    private void ProcessItem(uint itemId, bool isHQ)
+    private async Task ProcessItem(uint itemId, bool isHQ)
     {
         // reject invalid item id
         if (itemId == 0)
@@ -120,7 +120,7 @@ public class PriceService
         };
 
         // run price check
-        PriceCheck(pricedItem);
+        await PriceCheck(pricedItem);
 
         // check for existing entry for this itemId
         lock (Locker)
@@ -311,7 +311,7 @@ public class PriceService
         Plugin.PluginLog.Debug($"Message={pricedItem.Message}");
     }
 
-    private void PriceCheck(PricedItem pricedItem)
+    private async Task PriceCheck(PricedItem pricedItem)
     {
         // record current time for window visibility
         LastPriceCheck = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -340,7 +340,9 @@ public class PriceService
         }
 
         // set worldId
-        var worldId = Plugin.ClientState.LocalPlayer?.HomeWorld.RowId ?? 0;
+        var worldId = 0u;
+        await Plugin.Framework.RunOnTick(() => worldId = Plugin.ClientState.LocalPlayer?.HomeWorld.RowId ?? 0).ConfigureAwait(true);
+
         Plugin.PluginLog.Debug($"worldId={worldId}");
         if (worldId == 0)
         {
