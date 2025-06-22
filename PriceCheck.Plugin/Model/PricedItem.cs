@@ -64,4 +64,9 @@ public class PricedItem
     /// Gets or sets the color for overlay messages.
     /// </summary>
     public Vector4 OverlayColor { get; set; } = ImGuiColors.DalamudWhite;
+
+    /// <summary>
+    /// Gets or sets the world id this item was checked on.
+    /// </summary>
+    public uint WorldId { get; set; } = 0;
 }

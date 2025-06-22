@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dalamud.Game.Text;
 using Dalamud.Interface.Colors;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 // ReSharper disable UseCollectionExpression
 namespace PriceCheck;
@@ -88,13 +89,14 @@ public class PriceService
             // create new cancel token
             Plugin.ItemCancellationTokenSource = new CancellationTokenSource(Plugin.Configuration.RequestTimeout * 2);
 
+            var worldId = Plugin.ClientState.LocalPlayer?.HomeWorld.RowId ?? 0;
             // run price check
             Task.Run(async () =>
             {
                 await Task.Delay(Plugin.Configuration.HoverDelay * 1000, Plugin.ItemCancellationTokenSource!.Token)
-                          .ConfigureAwait(false);
+                    .ConfigureAwait(false);
 
-                await Plugin.PriceService.ProcessItem(itemId, isHQ);
+                await Plugin.PriceService.ProcessItem(itemId, isHQ, worldId);
             });
         }
         catch (Exception ex)
@@ -105,7 +107,7 @@ public class PriceService
         }
     }
 
-    private async Task ProcessItem(uint itemId, bool isHQ)
+    private async Task ProcessItem(uint itemId, bool isHQ, uint worldId)
     {
         // reject invalid item id
         if (itemId == 0)
@@ -117,6 +119,7 @@ public class PriceService
         {
             ItemId = itemId,
             IsHQ = isHQ,
+            WorldId = worldId
         };
 
         // run price check
@@ -339,12 +342,8 @@ public class PriceService
             return;
         }
 
-        // set worldId
-        var worldId = 0u;
-        await Plugin.Framework.RunOnTick(() => worldId = Plugin.ClientState.LocalPlayer?.HomeWorld.RowId ?? 0).ConfigureAwait(true);
-
-        Plugin.PluginLog.Debug($"worldId={worldId}");
-        if (worldId == 0)
+        Plugin.PluginLog.Debug($"worldId={pricedItem.WorldId}");
+        if (pricedItem.WorldId == 0)
         {
             pricedItem.Result = ItemResult.FailedToProcess;
             return;
@@ -354,7 +353,7 @@ public class PriceService
         MarketBoardData? marketBoardData;
         try
         {
-            marketBoardData = Plugin.UniversalisClient.GetMarketBoard(worldId, pricedItem.ItemId);
+            marketBoardData = Plugin.UniversalisClient.GetMarketBoard(pricedItem.WorldId, pricedItem.ItemId);
         }
         catch (Exception ex)
         {

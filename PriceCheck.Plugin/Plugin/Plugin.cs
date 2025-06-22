@@ -167,7 +167,7 @@ public class Plugin : IDalamudPlugin
             builder.AddUiForegroundOff();
 
         if (Configuration.ChatChannel == XivChatType.None)
-            Chat.Print(builder.BuiltString, PluginInterface.InternalName);
+            Chat.Print(builder.BuiltString);
         else
             Chat.Print(new XivChatEntry { Message = builder.BuiltString, Type = Configuration.ChatChannel });
     }

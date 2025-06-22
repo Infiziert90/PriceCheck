@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Title>PriceCheck.Plugin</Title>
 		<Authors>Infi, kalilistic</Authors>
-		<Version>2.7.3.0</Version>
+		<Version>2.7.3.1</Version>
 		<TargetFramework>net9.0-windows</TargetFramework>
 		<Platforms>x64</Platforms>
 		<LangVersion>latest</LangVersion>
