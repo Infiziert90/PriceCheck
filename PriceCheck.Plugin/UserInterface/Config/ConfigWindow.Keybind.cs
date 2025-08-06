@@ -1,7 +1,7 @@
 using System.Linq;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility.Raii;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace PriceCheck.Config;
 

@@ -86,8 +86,9 @@ public class Plugin : IDalamudPlugin
         WindowSystem.AddWindow(MainWindow);
         WindowSystem.AddWindow(ConfigWindow);
 
-        PluginInterface.UiBuilder.Draw += this.Draw;
-        PluginInterface.UiBuilder.OpenConfigUi += this.OpenConfigUi;
+        PluginInterface.UiBuilder.Draw += Draw;
+        PluginInterface.UiBuilder.OpenMainUi += OpenMainUi;
+        PluginInterface.UiBuilder.OpenConfigUi += OpenConfigUi;
     }
 
     /// <summary>
@@ -97,8 +98,9 @@ public class Plugin : IDalamudPlugin
     {
         try
         {
-            PluginInterface.UiBuilder.Draw -= this.Draw;
-            PluginInterface.UiBuilder.OpenConfigUi -= this.OpenConfigUi;
+            PluginInterface.UiBuilder.Draw -= Draw;
+            PluginInterface.UiBuilder.OpenMainUi -= OpenMainUi;
+            PluginInterface.UiBuilder.OpenConfigUi -= OpenConfigUi;
 
             ClientState.Login -= Login;
             PluginInterface.LanguageChanged -= LanguageChanged;
@@ -271,8 +273,6 @@ public class Plugin : IDalamudPlugin
         WindowSystem.Draw();
     }
 
-    private void OpenConfigUi()
-    {
-        this.ConfigWindow.Toggle();
-    }
+    private void OpenMainUi() => MainWindow.Toggle();
+    private void OpenConfigUi() => ConfigWindow.Toggle();
 }
